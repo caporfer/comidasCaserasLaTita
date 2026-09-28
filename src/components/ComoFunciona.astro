@@ -62,25 +62,24 @@ import Icono from './Icono.astro';
     color: var(--tinta-suave);
   }
   .nota-mano {
-    font-size: 1.9rem;
-    color: var(--azulejo);
+    font-size: 1.4rem;
+    color: var(--persiana);
     transform: rotate(-3deg);
     margin: 18px 0 26px;
   }
   .ticket {
-    --diente: 10px;
     justify-self: center;
     width: min(100%, 380px);
-    filter: drop-shadow(0 14px 18px rgba(43, 33, 26, 0.28));
+    filter: drop-shadow(0 14px 18px rgb(var(--tinta-rgb) / 0.28));
     transform: rotate(2.5deg);
   }
   .ticket-in {
-    background: #fdfbf4;
+    background: var(--blanco);
     padding: 30px 26px 34px;
     font-family: var(--f-ticket);
     font-size: 0.82rem;
     letter-spacing: 0.02em;
-    color: #3a332c;
+    color: #2c312e;
     /* bordes troquelados arriba y abajo */
     -webkit-mask:
       radial-gradient(circle at 50% 0, #0000 6px, #000 6.5px) top / 16px 51% repeat-x,
@@ -104,7 +103,7 @@ import Icono from './Icono.astro';
   }
   hr {
     border: 0;
-    border-top: 2px dashed #9b9185;
+    border-top: 2px dashed #9aa09c;
     margin: 14px 0;
   }
   .linea {
@@ -122,21 +121,21 @@ import Icono from './Icono.astro';
   .linea span:first-child::after {
     content: ' ..................................................';
     font-weight: 400;
-    color: #9b9185;
+    color: #9aa09c;
   }
   .paso + .paso {
     margin-top: 12px;
   }
   .cita {
-    font-size: 1.35rem;
-    color: var(--azulejo);
+    font-size: 1.05rem;
+    color: var(--geranio);
     font-family: var(--f-mano);
     letter-spacing: 0;
     line-height: 1.1 !important;
     margin-top: 4px !important;
   }
   .sub {
-    color: #6c6258;
+    color: #5f6661;
   }
   .total {
     font-size: 0.95rem;
@@ -145,7 +144,7 @@ import Icono from './Icono.astro';
     height: 44px;
     margin: 16px auto 0;
     width: 80%;
-    background: repeating-linear-gradient(90deg, #3a332c 0 2px, transparent 2px 4px, #3a332c 4px 5px, transparent 5px 9px, #3a332c 9px 12px, transparent 12px 13px);
+    background: repeating-linear-gradient(90deg, #2c312e 0 2px, transparent 2px 4px, #2c312e 4px 5px, transparent 5px 9px, #2c312e 9px 12px, transparent 12px 13px);
   }
   @media (max-width: 860px) {
     .rejilla {

@@ -41,9 +41,9 @@ const nota = negocio.valoracion.nota.toLocaleString('es-ES');
           <defs>
             <path id="circulo-sello" d="M100 100m-74 0a74 74 0 1 1 148 0a74 74 0 1 1-148 0" />
           </defs>
-          <circle cx="100" cy="100" r="96" fill="var(--mostaza)" stroke="var(--tinta)" stroke-width="4" />
-          <circle cx="100" cy="100" r="58" fill="none" stroke="var(--tinta)" stroke-width="2" stroke-dasharray="3 5" />
-          <text font-family="Figtree, sans-serif" font-weight="800" font-size="15" fill="var(--tinta)">
+          <circle cx="100" cy="100" r="96" fill="var(--albero)" stroke="var(--tinta)" stroke-width="4" />
+          <circle cx="100" cy="100" r="58" fill="var(--blanco)" stroke="var(--tinta)" stroke-width="2" stroke-dasharray="3 5" />
+          <text font-family="Work Sans, sans-serif" font-weight="700" font-size="15" fill="var(--tinta)">
             <textPath href="#circulo-sello" textLength="458" lengthAdjust="spacing">{`${negocio.valoracion.resenas} RESEÑAS EN GOOGLE ✦ CLIENTELA FIJA ✦ `}</textPath>
           </text>
         </svg>
@@ -68,9 +68,9 @@ const nota = negocio.valoracion.nota.toLocaleString('es-ES');
     align-items: center;
   }
   h1 {
-    font-size: clamp(2.55rem, 6.6vw, 5.6rem);
-    line-height: 0.98;
-    margin-bottom: 0.35em;
+    font-size: clamp(2.1rem, 5.3vw, 4.4rem);
+    line-height: 1.02;
+    margin-bottom: 0.4em;
   }
   .linea-h1 {
     display: block;
@@ -78,12 +78,11 @@ const nota = negocio.valoracion.nota.toLocaleString('es-ES');
   }
   .subrayado {
     width: fit-content;
-  }
-  .subrayado {
-    color: var(--almagra);
-    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 20' preserveAspectRatio='none'%3E%3Cpath d='M3 14C60 6 120 4 297 9' fill='none' stroke='%23dfa52a' stroke-width='7' stroke-linecap='round'/%3E%3C/svg%3E")
-      no-repeat 0 100% / 100% 0.28em;
-    padding-bottom: 0.08em;
+    color: var(--geranio);
+    /* brochazo de albero */
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 20' preserveAspectRatio='none'%3E%3Cpath d='M3 13C60 6 140 5 297 9' fill='none' stroke='%23e2b33c' stroke-width='9' stroke-linecap='round'/%3E%3C/svg%3E")
+      no-repeat 0 100% / 100% 0.3em;
+    padding-bottom: 0.12em;
   }
   .entrada {
     font-size: clamp(1.1rem, 1.8vw, 1.3rem);
@@ -147,7 +146,7 @@ const nota = negocio.valoracion.nota.toLocaleString('es-ES');
     text-decoration: none;
     display: grid;
     place-items: center;
-    filter: drop-shadow(3px 4px 0 rgba(43, 33, 26, 0.25));
+    filter: drop-shadow(3px 4px 0 rgb(var(--tinta-rgb) / 0.25));
   }
   .sello svg {
     position: absolute;
@@ -162,13 +161,13 @@ const nota = negocio.valoracion.nota.toLocaleString('es-ES');
   }
   .sello-nota strong {
     font-family: var(--f-titulo);
-    font-size: 2.3rem;
+    font-size: 2rem;
     font-weight: 400;
   }
   .estrellas {
     font-size: 0.7rem;
     letter-spacing: 1px;
-    color: var(--almagra);
+    color: var(--geranio);
   }
   @keyframes girar {
     to {
@@ -191,7 +190,7 @@ const nota = negocio.valoracion.nota.toLocaleString('es-ES');
       width: 118px;
     }
     .sello-nota strong {
-      font-size: 1.8rem;
+      font-size: 1.55rem;
     }
   }
 </style>

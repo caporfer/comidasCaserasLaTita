@@ -80,11 +80,11 @@ const grupos = horarioAgrupado();
   address > :global(svg) {
     width: 26px;
     flex: none;
-    color: var(--almagra);
+    color: var(--geranio);
     margin-top: 2px;
   }
   .horario {
-    background: var(--crema);
+    background: var(--blanco);
     border: 2px solid var(--tinta);
     border-radius: var(--radio);
     padding: 20px 22px;
@@ -94,8 +94,9 @@ const grupos = horarioAgrupado();
     display: flex;
     align-items: center;
     gap: 8px;
-    font-size: 1.4rem;
+    font-size: 1.25rem;
     margin-bottom: 6px;
+    color: var(--persiana);
   }
   .horario h3 :global(svg) {
     width: 22px;
@@ -111,7 +112,7 @@ const grupos = horarioAgrupado();
   td {
     text-align: left;
     padding: 9px 8px;
-    border-top: 1px dashed rgba(43, 33, 26, 0.3);
+    border-top: 1px dashed rgb(var(--tinta-rgb) / 0.3);
     font-weight: 400;
   }
   th {
@@ -123,12 +124,13 @@ const grupos = horarioAgrupado();
     font-variant-numeric: tabular-nums;
   }
   tr[data-hoy] {
-    background: var(--mostaza);
+    background: var(--albero);
   }
   tr[data-hoy] th::after {
     content: ' (hoy)';
     font-family: var(--f-mano);
-    font-size: 1.15rem;
+    font-weight: 400;
+    font-size: 0.9rem;
   }
   .botones {
     display: flex;
@@ -140,9 +142,9 @@ const grupos = horarioAgrupado();
   }
   .mapa-marco {
     border: 3px solid var(--tinta);
-    background: var(--crema);
+    background: var(--blanco);
     padding: 10px;
-    box-shadow: 10px 10px 0 var(--almagra);
+    box-shadow: 10px 10px 0 var(--persiana);
     transform: rotate(-1deg);
   }
   iframe {
@@ -150,14 +152,13 @@ const grupos = horarioAgrupado();
     width: 100%;
     aspect-ratio: 4 / 3.4;
     border: 0;
-    filter: sepia(0.25) saturate(0.9);
   }
   .chincheta-nota {
     position: absolute;
-    top: -26px;
+    top: -30px;
     right: 24px;
-    font-size: 2.2rem;
-    color: var(--almagra);
+    font-size: 1.6rem;
+    color: var(--geranio);
     transform: rotate(8deg);
     margin: 0;
   }

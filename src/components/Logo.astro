@@ -9,9 +9,9 @@ const { claro = false } = Astro.props;
   <svg class="olla" viewBox="0 0 64 56" aria-hidden="true">
     <path d="M22 14c3-5-2-7 1-12M32 14c3-5-2-7 1-12M42 14c3-5-2-7 1-12" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
     <path d="M6 22h52" stroke="currentColor" stroke-width="4" stroke-linecap="round" />
-    <path d="M10 24h44v14a14 14 0 0 1-14 14H24a14 14 0 0 1-14-14V24Z" fill="var(--almagra)" stroke="currentColor" stroke-width="3" />
+    <path d="M10 24h44v14a14 14 0 0 1-14 14H24a14 14 0 0 1-14-14V24Z" fill="var(--geranio)" stroke="currentColor" stroke-width="3" />
     <path d="M10 30H3M54 30h7" stroke="currentColor" stroke-width="4" stroke-linecap="round" />
-    <path d="M18 34c5 3 23 3 28 0" fill="none" stroke="var(--crema)" stroke-width="2.4" stroke-linecap="round" stroke-dasharray="1 5" />
+    <path d="M18 34c5 3 23 3 28 0" fill="none" stroke="var(--blanco)" stroke-width="2.4" stroke-linecap="round" stroke-dasharray="1 5" />
   </svg>
   <span class="letras">
     <span class="nombre">La Tita</span>
@@ -27,36 +27,47 @@ const { claro = false } = Astro.props;
     color: var(--tinta);
   }
   .logo.claro {
-    color: var(--crema);
+    color: var(--blanco);
   }
   .olla {
-    width: 44px;
+    width: 42px;
     height: auto;
     flex: none;
     margin-top: -6px;
   }
   .letras {
     display: grid;
+    justify-items: start;
     line-height: 1;
   }
+  /* placa de rótulo pintada */
   .nombre {
     font-family: var(--f-titulo);
-    font-size: 1.75rem;
-    letter-spacing: -0.02em;
+    font-size: 1.45rem;
+    color: var(--blanco);
+    background: var(--persiana);
+    padding: 5px 10px 6px;
+    border-radius: 4px;
+    box-shadow: inset 0 0 0 2px var(--persiana), inset 0 0 0 3.5px var(--albero);
+    transform: rotate(-1.5deg);
+  }
+  .claro .nombre {
+    background: var(--geranio);
+    box-shadow: inset 0 0 0 2px var(--geranio), inset 0 0 0 3.5px var(--blanco);
   }
   .apellido {
-    font-size: 0.72rem;
-    font-weight: 800;
+    font-size: 0.7rem;
+    font-weight: 700;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    opacity: 0.8;
-    margin-top: 3px;
+    opacity: 0.85;
+    margin-top: 6px;
     white-space: nowrap;
   }
   @media (max-width: 420px) {
     .apellido {
       letter-spacing: 0.06em;
-      font-size: 0.66rem;
+      font-size: 0.64rem;
     }
   }
 </style>

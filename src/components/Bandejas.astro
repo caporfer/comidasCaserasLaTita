@@ -52,7 +52,7 @@ const bolsas = [
 
 <style>
   .bandejas {
-    background: var(--papel-2);
+    background: var(--persiana-claro);
     border-top: 2px solid var(--tinta);
   }
   .cabeza {
@@ -75,12 +75,12 @@ const bolsas = [
     position: relative;
     padding: 64px 26px 28px;
     background:
-      linear-gradient(90deg, rgba(0, 0, 0, 0.05) 0 2px, transparent 2px) 0 0 / 7px 100%,
-      linear-gradient(#caa877, #b8935f);
+      linear-gradient(90deg, rgb(0 0 0 / 0.05) 0 2px, transparent 2px) 0 0 / 7px 100%,
+      linear-gradient(var(--kraft), var(--kraft-osc));
     color: var(--tinta);
     clip-path: polygon(0 18px, 4% 0, 8% 18px, 12% 0, 16% 18px, 20% 0, 24% 18px, 28% 0, 32% 18px, 36% 0, 40% 18px, 44% 0, 48% 18px, 52% 0, 56% 18px, 60% 0, 64% 18px, 68% 0, 72% 18px, 76% 0, 80% 18px, 84% 0, 88% 18px, 92% 0, 96% 18px, 100% 0, 100% 100%, 0 100%);
     transform: rotate(var(--giro));
-    filter: drop-shadow(0 12px 12px rgba(43, 33, 26, 0.3));
+    filter: drop-shadow(0 12px 12px rgb(var(--tinta-rgb) / 0.3));
   }
   .pliegue {
     position: absolute;
@@ -88,17 +88,17 @@ const bolsas = [
     right: 0;
     top: 18px;
     height: 28px;
-    background: rgba(0, 0, 0, 0.08);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+    background: rgb(0 0 0 / 0.08);
+    border-bottom: 1px solid rgb(0 0 0 / 0.15);
   }
   .sello-bolsa {
     position: absolute;
     right: 18px;
     top: 58px;
     font-family: var(--f-titulo);
-    font-size: 1rem;
-    color: var(--almagra);
-    border: 2px solid var(--almagra);
+    font-size: 0.8rem;
+    color: var(--geranio);
+    border: 2px solid var(--geranio);
     border-radius: 50%;
     width: 64px;
     height: 64px;
@@ -108,18 +108,18 @@ const bolsas = [
     opacity: 0.8;
   }
   .bolsa h3 {
-    font-size: 1.6rem;
+    font-size: 1.35rem;
     max-width: 12ch;
     margin-top: 10px;
   }
   .bolsa p {
-    color: #3f3226;
+    color: #33291f;
   }
   .pedir {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    font-weight: 800;
+    font-weight: 700;
     color: var(--tinta);
     text-decoration: underline;
     text-decoration-thickness: 2px;

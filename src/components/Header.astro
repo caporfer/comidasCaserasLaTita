@@ -31,8 +31,8 @@ import { negocio, telLink, waLink } from '../data/negocio';
 
 <style>
   .franja {
-    background: var(--tinta);
-    color: var(--papel);
+    background: var(--persiana-osc);
+    color: var(--cal);
     font-size: 0.875rem;
   }
   .franja-in {
@@ -46,7 +46,7 @@ import { negocio, telLink, waLink } from '../data/negocio';
     font-size: 0.875rem;
   }
   .franja a {
-    color: var(--papel);
+    color: var(--cal);
     text-decoration: none;
     font-weight: 600;
   }
@@ -57,9 +57,11 @@ import { negocio, telLink, waLink } from '../data/negocio';
     position: sticky;
     top: 0;
     z-index: 40;
-    background: color-mix(in srgb, var(--papel) 92%, transparent);
+    background: color-mix(in srgb, var(--cal) 94%, transparent);
     backdrop-filter: blur(6px);
+    /* zócalo de albero bajo la cabecera */
     border-bottom: 2px solid var(--tinta);
+    box-shadow: 0 4px 0 var(--albero), 0 6px 0 var(--tinta);
   }
   .cabecera-in {
     display: flex;
@@ -83,7 +85,7 @@ import { negocio, telLink, waLink } from '../data/negocio';
     font-weight: 600;
     text-decoration: none;
     padding: 6px 2px;
-    background: linear-gradient(var(--mostaza), var(--mostaza)) no-repeat 0 88% / 0 6px;
+    background: linear-gradient(var(--albero), var(--albero)) no-repeat 0 88% / 0 6px;
     transition: background-size 0.25s ease;
   }
   nav a:hover {

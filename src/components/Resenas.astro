@@ -55,7 +55,7 @@ const giros = [-3, 2, -1.5, 3.5];
     gap: 14px;
     color: var(--tinta);
     text-decoration: none;
-    background: var(--crema);
+    background: var(--blanco);
     border: 2px solid var(--tinta);
     border-radius: 999px;
     padding: 10px 22px 10px 14px;
@@ -67,13 +67,14 @@ const giros = [-3, 2, -1.5, 3.5];
   }
   .grande {
     font-family: var(--f-titulo);
-    font-size: 2.6rem;
+    font-size: 2.2rem;
     line-height: 1;
+    color: var(--persiana);
   }
   .estrellas {
     display: flex;
     gap: 2px;
-    color: var(--mostaza);
+    color: var(--albero);
   }
   .estrellas :global(svg) {
     width: 18px;
@@ -99,7 +100,7 @@ const giros = [-3, 2, -1.5, 3.5];
     flex-direction: column;
     justify-content: space-between;
     transform: rotate(var(--giro));
-    box-shadow: 0 18px 20px -16px rgba(43, 33, 26, 0.55);
+    box-shadow: 0 18px 20px -16px rgb(var(--tinta-rgb) / 0.55);
     transition: transform 0.25s ease;
   }
   .postit:hover {
@@ -113,26 +114,27 @@ const giros = [-3, 2, -1.5, 3.5];
     bottom: 0;
     width: 28px;
     height: 28px;
-    background: linear-gradient(135deg, rgba(0, 0, 0, 0.12) 50%, var(--papel) 50%);
+    background: linear-gradient(135deg, rgb(0 0 0 / 0.12) 50%, var(--cal) 50%);
   }
   .amarillo {
-    background: #f7df7c;
+    background: var(--albero-claro);
   }
   .rosa {
-    background: #f4b8a8;
+    background: var(--geranio-claro);
   }
   .azul {
-    background: #bcd4ee;
+    background: #d6e4ee;
   }
   .verde {
-    background: #cfdea3;
+    background: var(--persiana-claro);
   }
   .postit p {
-    font-size: 1.75rem;
+    font-size: 1.22rem;
+    line-height: 1.35;
     margin: 0 0 14px;
   }
   .estrellitas {
-    color: var(--almagra);
+    color: var(--geranio);
     letter-spacing: 2px;
   }
   .chincheta {
@@ -142,8 +144,8 @@ const giros = [-3, 2, -1.5, 3.5];
     width: 16px;
     height: 16px;
     border-radius: 50%;
-    background: radial-gradient(circle at 35% 35%, #e46a4d, var(--almagra-osc));
-    box-shadow: 1px 3px 3px rgba(0, 0, 0, 0.35);
+    background: radial-gradient(circle at 35% 35%, #5fa37f, var(--persiana-osc));
+    box-shadow: 1px 3px 3px rgb(0 0 0 / 0.35);
   }
   .fuente {
     margin-top: 32px;

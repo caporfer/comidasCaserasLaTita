@@ -30,46 +30,65 @@ const nota = negocio.valoracion.nota.toLocaleString('es-ES');
 
     <figure class="tienda">
       <svg viewBox="0 0 420 400" role="img" aria-labelledby="tienda-t">
-        <title id="tienda-t">Dibujo de la fachada de La Tita, con su toldo de rayas y la pizarra en la puerta</title>
-        <g stroke="#2b211a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
-          <!-- fachada -->
-          <path d="M30 70h360v310H30z" fill="#f7efdc" />
-          <path d="M30 330h360" fill="none" />
-          <!-- zócalo de azulejo -->
+        <title id="tienda-t">Dibujo de la fachada encalada de La Tita, con persianas verdes, zócalo de albero y geranios</title>
+        <g stroke="var(--tinta)" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+          <!-- pared encalada -->
+          <path d="M20 60h380v320H20z" fill="var(--blanco)" />
+          <!-- zócalo de albero -->
+          <rect x="20" y="326" width="380" height="54" fill="var(--albero)" />
+          <path d="M20 334h380" stroke-width="1.5" opacity=".5" />
+
+          <!-- rótulo pintado -->
+          <rect x="95" y="14" width="230" height="58" rx="5" fill="var(--persiana)" />
+          <rect x="102" y="21" width="216" height="44" rx="3" fill="none" stroke="var(--albero)" stroke-width="2" />
+          <text x="210" y="52" text-anchor="middle" font-family="Alfa Slab One, Rockwell, serif" font-size="27" fill="var(--blanco)" stroke="none">LA TITA</text>
+
+          <!-- toldo a rayas -->
+          <path d="M40 92h200l-10 40H50z" fill="var(--blanco)" />
+          <g fill="var(--geranio)" stroke="none">
+            <path d="M40 92h25l-3 40H50zM90 92h25l-1 40H91zM140 92h25v40h-25zM190 92h25l2 40h-25z" />
+          </g>
+          <path d="M40 92h200l-10 40H50z" fill="none" />
+          <path d="M50 132q10 12 20 0q10 12 20 0q10 12 20 0q10 12 20 0q10 12 20 0q10 12 20 0q10 12 20 0q10 12 20 0q10 12 20 0" fill="var(--blanco)" />
+
+          <!-- escaparate con ollas -->
+          <rect x="52" y="160" width="176" height="150" fill="var(--persiana-claro)" />
+          <path d="M140 160v150" />
+          <path d="M66 180l30-10M156 192l40-14" stroke="var(--blanco)" stroke-width="4" opacity=".9" />
+          <path d="M68 296h54v-20a6 6 0 0 0-6-6H74a6 6 0 0 0-6 6z" fill="var(--geranio)" />
+          <path d="M154 296h60v-26h-60z" fill="var(--albero)" />
+          <path d="M166 270c-2-10 6-12 4-20M188 270c-2-10 6-12 4-20" fill="none" stroke-width="2" />
+          <!-- repisa -->
+          <path d="M44 310h192" stroke-width="5" />
+
+          <!-- puerta con persiana verde -->
+          <rect x="262" y="150" width="112" height="176" fill="var(--persiana)" />
+          <g stroke="var(--persiana-osc)" stroke-width="2">
+            <path d="M270 166h96M270 176h96M270 186h96M270 196h96M270 206h96M270 216h96M270 226h96M270 236h96" />
+          </g>
+          <rect x="270" y="252" width="96" height="66" fill="var(--persiana-osc)" />
+          <circle cx="360" cy="286" r="4" fill="var(--albero)" />
+
+          <!-- macetas de geranios en la fachada -->
           <g>
-            <rect x="30" y="330" width="360" height="50" fill="#1d4a86" />
-            <path d="M30 355h360M66 330v50M102 330v50M138 330v50M174 330v50M210 330v50M246 330v50M282 330v50M318 330v50M354 330v50" stroke="#f7efdc" stroke-width="1.6" />
+            <path d="M292 120h40l-4 18h-32z" fill="var(--geranio-osc)" />
+            <path d="M302 120c-8-12-2-20 6-16M312 120c0-14 8-18 12-12M322 120c6-10 14-8 12 0" fill="none" stroke="var(--persiana)" stroke-width="2.5" />
+            <g fill="var(--geranio)" stroke-width="2">
+              <circle cx="304" cy="102" r="6" /><circle cx="318" cy="96" r="7" /><circle cx="332" cy="104" r="6" />
+            </g>
+            <path d="M270 112h96" stroke-width="2" opacity=".6" />
+            <path d="M276 100v12M360 100v12" stroke-width="2" opacity=".6" />
           </g>
-          <!-- cartel -->
-          <rect x="70" y="20" width="280" height="62" rx="6" fill="#a13d25" />
-          <text x="210" y="60" text-anchor="middle" font-family="Young Serif, Georgia, serif" font-size="34" fill="#fbf6ea" stroke="none">La Tita</text>
-          <text x="210" y="76" text-anchor="middle" font-family="Figtree, sans-serif" font-weight="800" font-size="9" letter-spacing="3" fill="#fbf6ea" stroke="none">COMIDAS CASERAS</text>
-          <!-- toldo -->
-          <path d="M40 100h340l-14 46H54z" fill="#fbf6ea" />
-          <g fill="#a13d25" stroke="none">
-            <path d="M40 100h34l-4 46H54zM108 100h34l-2 46h-30zM176 100h34v46h-34zM244 100h34l2 46h-34zM312 100h34l6 46h-34z" />
-          </g>
-          <path d="M40 100h340l-14 46H54z" fill="none" />
-          <path d="M54 146q12 14 24 0q12 14 24 0q12 14 24 0q12 14 24 0q12 14 24 0q12 14 24 0q12 14 24 0q12 14 24 0q12 14 24 0q12 14 24 0q12 14 24 0q12 14 24 0q12 12 18 0" fill="#fbf6ea" />
-          <!-- escaparate -->
-          <rect x="54" y="176" width="170" height="140" fill="#cfe0ef" />
-          <path d="M139 176v140" />
-          <path d="M70 196l30-10M160 210l40-14" stroke="#fff" stroke-width="4" opacity=".8" />
-          <!-- ollas en el escaparate -->
-          <path d="M70 300h54v-20a6 6 0 0 0-6-6H76a6 6 0 0 0-6 6z" fill="#a13d25" />
-          <path d="M150 300h60v-26H150z" fill="#dfa52a" />
-          <path d="M160 274c-2-10 6-12 4-20M180 274c-2-10 6-12 4-20" fill="none" stroke-width="2" />
-          <!-- puerta -->
-          <rect x="250" y="170" width="110" height="160" fill="#5f6b34" />
-          <rect x="266" y="186" width="78" height="70" fill="#cfe0ef" />
-          <circle cx="342" cy="262" r="4" fill="#dfa52a" />
+
           <!-- pizarra de pie -->
-          <path d="M214 380l20-86h56l20 86" fill="none" stroke-width="4" />
-          <rect x="226" y="290" width="72" height="70" rx="2" fill="#252d28" />
-          <path d="M236 306h40M236 320h52M236 334h30M236 348h44" stroke="#f2eee4" stroke-width="2" opacity=".85" />
-          <!-- maceta -->
-          <path d="M366 380l6-34h26l6 34z" fill="#a13d25" />
-          <path d="M385 346c-10-20-24-18-30-30M385 346c4-24 16-30 22-40M385 346c-2-18 -8-28-4-44" fill="none" stroke="#5f6b34" stroke-width="3" />
+          <path d="M196 380l18-78h52l18 78" fill="none" stroke-width="4" />
+          <rect x="206" y="296" width="68" height="66" rx="2" fill="var(--pizarra)" />
+          <path d="M216 312h36M216 326h48M216 340h28M216 352h40" stroke="var(--tiza)" stroke-width="2" opacity=".85" />
+
+          <!-- maceta a pie de calle -->
+          <path d="M28 380l6-30h30l6 30z" fill="var(--geranio-osc)" />
+          <path d="M49 350c-8-16-2-26 8-22M49 350c2-16 12-20 18-12" fill="none" stroke="var(--persiana)" stroke-width="2.5" />
+          <g fill="var(--geranio)" stroke-width="2"><circle cx="44" cy="330" r="7" /><circle cx="60" cy="334" r="6" /></g>
         </g>
       </svg>
       <figcaption class="mano">C. Hermano Palomo, Huelva</figcaption>
@@ -88,21 +107,22 @@ const nota = negocio.valoracion.nota.toLocaleString('es-ES');
 
 <style>
   .historia {
-    background: var(--azulejo);
-    color: var(--crema);
+    background: var(--persiana);
+    color: var(--blanco);
     border-block: 3px solid var(--tinta);
     overflow: hidden;
   }
   .historia::before {
-    /* marca de agua de azulejo */
+    /* lamas de persiana */
     content: '';
     position: absolute;
     inset: 0;
-    opacity: 0.07;
-    background:
-      radial-gradient(circle at 0 0, #fff 18%, transparent 19%) 0 0 / 60px 60px,
-      radial-gradient(circle at 100% 100%, #fff 18%, transparent 19%) 0 0 / 60px 60px,
-      radial-gradient(circle at 50% 50%, #fff 12%, transparent 13%) 0 0 / 60px 60px;
+    background: repeating-linear-gradient(
+      180deg,
+      transparent 0 22px,
+      rgb(0 0 0 / 0.08) 22px 24px,
+      rgb(255 255 255 / 0.04) 24px 26px
+    );
     pointer-events: none;
   }
   .rejilla {
@@ -113,36 +133,36 @@ const nota = negocio.valoracion.nota.toLocaleString('es-ES');
     position: relative;
   }
   .antetitulo {
-    color: var(--mostaza);
+    color: var(--albero);
   }
   h2 {
     display: grid;
     grid-template-columns: auto 1fr;
     align-items: center;
     gap: 18px;
-    font-size: clamp(1.7rem, 3.4vw, 2.5rem);
+    font-size: clamp(1.45rem, 2.8vw, 2.1rem);
     margin-bottom: 28px;
   }
   .numero {
-    font-size: clamp(6rem, 14vw, 10rem);
+    font-size: clamp(5rem, 11vw, 8rem);
     line-height: 0.8;
-    color: var(--mostaza);
+    color: var(--albero);
     text-shadow: 5px 5px 0 var(--tinta);
   }
   .texto p:not(.antetitulo):not(.receta) {
-    color: rgba(251, 246, 234, 0.9);
+    color: rgb(253 252 248 / 0.92);
     max-width: 52ch;
   }
   .receta {
-    font-size: 1.9rem;
+    font-size: 1.45rem;
     max-width: 24ch;
-    color: var(--mostaza);
+    color: var(--albero-claro);
     transform: rotate(-2deg);
     margin-top: 24px;
   }
   .tienda {
     margin: 0;
-    background: var(--crema);
+    background: var(--blanco);
     padding: 18px 18px 6px;
     border: 3px solid var(--tinta);
     box-shadow: 10px 10px 0 var(--tinta);
@@ -151,8 +171,8 @@ const nota = negocio.valoracion.nota.toLocaleString('es-ES');
   .tienda figcaption {
     color: var(--tinta);
     text-align: center;
-    font-size: 1.5rem;
-    padding: 6px 0;
+    font-size: 1.15rem;
+    padding: 8px 0 6px;
   }
   .cifras {
     list-style: none;
@@ -160,23 +180,24 @@ const nota = negocio.valoracion.nota.toLocaleString('es-ES');
     margin: clamp(48px, 7vw, 80px) 0 0;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    border-top: 2px dashed rgba(251, 246, 234, 0.4);
+    border-top: 2px dashed rgb(253 252 248 / 0.4);
     position: relative;
   }
   .cifras li {
     padding: 24px 12px 0;
     display: grid;
-    gap: 2px;
+    gap: 4px;
   }
   .cifras strong {
     font-family: var(--f-titulo);
     font-weight: 400;
-    font-size: clamp(2rem, 4vw, 2.8rem);
+    font-size: clamp(1.8rem, 3.4vw, 2.5rem);
     line-height: 1;
+    color: var(--albero);
   }
   .cifras span {
     font-size: 0.95rem;
-    opacity: 0.85;
+    opacity: 0.9;
   }
   @media (max-width: 900px) {
     .rejilla {

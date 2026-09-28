@@ -1,5 +1,5 @@
 ---
-// Cenefa de azulejo andaluz dibujada en SVG (sin imágenes externas).
+// Cenefa de azulejo de zócalo andaluz dibujada en SVG (sin imágenes externas).
 interface Props {
   alto?: number;
   class?: string;
@@ -13,27 +13,24 @@ const id = `az-${Math.random().toString(36).slice(2, 8)}`;
     <defs>
       <pattern id={id} width={alto} height={alto} patternUnits="userSpaceOnUse">
         <g transform={`scale(${alto / 48})`}>
-          <rect width="48" height="48" fill="#f7efdc" />
-          <rect x="1" y="1" width="46" height="46" fill="none" stroke="#1d4a86" stroke-width="2" />
+          <rect width="48" height="48" fill="var(--blanco)" />
+          <rect x="1" y="1" width="46" height="46" fill="none" stroke="var(--persiana)" stroke-width="2" />
           <!-- cuartos de flor en las esquinas: al juntarse forman una flor -->
-          <g fill="#1d4a86">
+          <g fill="var(--persiana)">
             <path d="M0 0h13a13 13 0 0 1-13 13Z" />
             <path d="M48 0H35a13 13 0 0 0 13 13Z" />
             <path d="M0 48h13a13 13 0 0 0-13-13Z" />
             <path d="M48 48H35a13 13 0 0 1 13-13Z" />
           </g>
-          <!-- estrella central -->
-          <path
-            d="M24 9c2.5 6 3.8 8.5 15 15-11.2 6.5-12.5 9-15 15-2.5-6-3.8-8.5-15-15 11.2-6.5 12.5-9 15-15Z"
-            fill="#1d4a86"
-          />
-          <circle cx="24" cy="24" r="5.2" fill="#dfa52a" />
-          <circle cx="24" cy="24" r="2" fill="#a13d25" />
-          <g fill="#dfa52a">
-            <circle cx="24" cy="3.5" r="1.8" />
-            <circle cx="24" cy="44.5" r="1.8" />
-            <circle cx="3.5" cy="24" r="1.8" />
-            <circle cx="44.5" cy="24" r="1.8" />
+          <!-- rombo central de albero con corazón de geranio -->
+          <path d="M24 8 40 24 24 40 8 24Z" fill="var(--albero)" />
+          <path d="M24 14 34 24 24 34 14 24Z" fill="none" stroke="var(--persiana)" stroke-width="1.6" />
+          <circle cx="24" cy="24" r="4.2" fill="var(--geranio)" />
+          <g fill="var(--geranio)">
+            <circle cx="24" cy="3.5" r="1.6" />
+            <circle cx="24" cy="44.5" r="1.6" />
+            <circle cx="3.5" cy="24" r="1.6" />
+            <circle cx="44.5" cy="24" r="1.6" />
           </g>
         </g>
       </pattern>
@@ -46,7 +43,7 @@ const id = `az-${Math.random().toString(36).slice(2, 8)}`;
   .cenefa {
     height: var(--alto);
     border-block: 3px solid var(--tinta);
-    background: var(--azulejo);
+    background: var(--persiana);
     overflow: hidden;
   }
   .cenefa svg {

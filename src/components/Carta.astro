@@ -210,8 +210,8 @@ const horas = negocio.horario.dias[1].map(([a, c]) => {
     margin-bottom: 36px;
   }
   .cabecera-carta h2 {
-    font-size: clamp(3rem, 8vw, 5.5rem);
-    margin-bottom: 0.2em;
+    font-size: clamp(2.6rem, 6.5vw, 4.4rem);
+    margin-bottom: 0.25em;
   }
   .cabecera-carta p:last-child {
     color: var(--tinta-suave);
@@ -222,9 +222,9 @@ const horas = negocio.horario.dias[1].map(([a, c]) => {
     width: 1.5em;
     height: 1.5em;
     border-radius: 50%;
-    background: var(--almagra);
-    color: var(--crema);
-    font-weight: 800;
+    background: var(--geranio);
+    color: var(--blanco);
+    font-weight: 700;
     line-height: 1;
   }
   .rejilla {
@@ -252,7 +252,7 @@ const horas = negocio.horario.dias[1].map(([a, c]) => {
     flex: none;
     font: 600 0.98rem var(--f-texto);
     color: var(--tinta);
-    background: var(--papel-2);
+    background: var(--albero-claro);
     border: 2px solid var(--tinta);
     border-bottom: 0;
     border-radius: 10px 10px 0 0;
@@ -265,18 +265,18 @@ const horas = negocio.horario.dias[1].map(([a, c]) => {
     transform: translateY(1px);
   }
   [role='tab'][aria-selected='true'] {
-    background: var(--crema);
+    background: var(--blanco);
     transform: none;
     padding-bottom: 14px;
   }
   .panel {
-    background: var(--crema);
+    background: var(--blanco);
     border: 2px solid var(--tinta);
     border-radius: 0 var(--radio) var(--radio) var(--radio);
     padding: clamp(20px, 3.5vw, 40px);
-    box-shadow: 6px 6px 0 var(--kraft);
+    box-shadow: 6px 6px 0 var(--albero);
     /* líneas de libreta */
-    background-image: repeating-linear-gradient(transparent 0 35px, rgba(29, 74, 134, 0.09) 35px 36px);
+    background-image: repeating-linear-gradient(transparent 0 35px, rgb(46 107 79 / 0.08) 35px 36px);
   }
   .panel-cabeza {
     display: grid;
@@ -286,7 +286,8 @@ const horas = negocio.horario.dias[1].map(([a, c]) => {
     margin-bottom: 10px;
   }
   .panel h3 {
-    font-size: clamp(1.8rem, 3.5vw, 2.4rem);
+    font-size: clamp(1.5rem, 2.8vw, 1.95rem);
+    color: var(--persiana);
     margin-bottom: 0.25em;
   }
   .entradilla {
@@ -306,7 +307,7 @@ const horas = negocio.horario.dias[1].map(([a, c]) => {
     gap: 14px;
     align-items: flex-start;
     padding: 14px 0;
-    border-top: 1px dashed rgba(43, 33, 26, 0.3);
+    border-top: 1px dashed rgb(var(--tinta-rgb) / 0.3);
   }
   .plato-texto {
     flex: 1;
@@ -321,12 +322,12 @@ const horas = negocio.horario.dias[1].map(([a, c]) => {
     gap: 8px;
   }
   .plato-nombre {
-    font-weight: 800;
+    font-weight: 700;
     font-size: 1.1rem;
   }
   .puntos {
     flex: 1;
-    border-bottom: 2px dotted rgba(43, 33, 26, 0.45);
+    border-bottom: 2px dotted rgb(var(--tinta-rgb) / 0.45);
     min-width: 20px;
     transform: translateY(-4px);
   }
@@ -342,8 +343,9 @@ const horas = negocio.horario.dias[1].map(([a, c]) => {
     margin-top: 2px !important;
   }
   .fama {
-    color: var(--almagra);
-    font-size: 1.35rem;
+    color: var(--geranio);
+    font-size: 1rem;
+    margin-top: 4px !important;
     transform: rotate(-2deg);
     transform-origin: left;
   }
@@ -355,8 +357,8 @@ const horas = negocio.horario.dias[1].map(([a, c]) => {
     place-items: center;
     border-radius: 50%;
     border: 2px solid var(--tinta);
-    background: var(--almagra);
-    color: var(--crema);
+    background: var(--geranio);
+    color: var(--blanco);
     cursor: pointer;
     box-shadow: 2px 2px 0 var(--tinta);
     transition: transform 0.15s ease, background 0.15s ease;
@@ -368,7 +370,7 @@ const horas = negocio.horario.dias[1].map(([a, c]) => {
     transform: rotate(90deg);
   }
   .anadir.hecho {
-    background: var(--wa);
+    background: var(--persiana);
     animation: pop 0.35s ease;
   }
   @keyframes pop {
@@ -388,11 +390,11 @@ const horas = negocio.horario.dias[1].map(([a, c]) => {
     top: 96px;
   }
   .encargo-papel {
-    background: #fffdf6;
+    background: var(--blanco);
     border: 2px solid var(--tinta);
     border-radius: var(--radio);
     padding: 22px 22px 24px;
-    box-shadow: 6px 6px 0 var(--azulejo);
+    box-shadow: 6px 6px 0 var(--persiana);
     position: relative;
   }
   .encargo-papel::before {
@@ -404,13 +406,13 @@ const horas = negocio.horario.dias[1].map(([a, c]) => {
     width: 70px;
     height: 26px;
     border-radius: 6px 6px 3px 3px;
-    background: linear-gradient(#8e959c, #5d646b);
+    background: linear-gradient(#9aa3a0, #636b68);
     border: 2px solid var(--tinta);
   }
   .encargo h3 {
-    font-size: 2.4rem;
-    margin: 4px 0 6px;
-    color: var(--azulejo);
+    font-size: 1.7rem;
+    margin: 6px 0 8px;
+    color: var(--persiana);
   }
   .vacio {
     color: var(--tinta-suave);
@@ -427,7 +429,7 @@ const horas = negocio.horario.dias[1].map(([a, c]) => {
     align-items: center;
     gap: 10px;
     padding: 8px 0;
-    border-bottom: 1px dashed rgba(43, 33, 26, 0.3);
+    border-bottom: 1px dashed rgb(var(--tinta-rgb) / 0.3);
     font-weight: 600;
     font-size: 0.98rem;
   }
@@ -449,7 +451,7 @@ const horas = negocio.horario.dias[1].map(([a, c]) => {
     place-items: center;
     border-radius: 50%;
     border: 2px solid var(--tinta);
-    background: var(--papel);
+    background: var(--cal);
     cursor: pointer;
     color: var(--tinta);
   }
@@ -483,8 +485,8 @@ const horas = negocio.horario.dias[1].map(([a, c]) => {
   textarea {
     font: 400 1rem var(--f-texto);
     color: var(--tinta);
-    background: var(--crema);
-    border: 2px solid rgba(43, 33, 26, 0.55);
+    background: var(--cal);
+    border: 2px solid rgb(var(--tinta-rgb) / 0.55);
     border-radius: var(--radio);
     padding: 9px 10px;
     width: 100%;
@@ -492,9 +494,9 @@ const horas = negocio.horario.dias[1].map(([a, c]) => {
   input:focus,
   select:focus,
   textarea:focus {
-    border-color: var(--azulejo);
+    border-color: var(--persiana);
     outline: none;
-    box-shadow: 0 0 0 3px rgba(29, 74, 134, 0.2);
+    box-shadow: 0 0 0 3px rgb(46 107 79 / 0.22);
   }
   textarea {
     resize: vertical;
@@ -504,7 +506,9 @@ const horas = negocio.horario.dias[1].map(([a, c]) => {
     margin-top: 4px;
   }
   .enviar[aria-disabled='true'] {
-    opacity: 0.45;
+    --b-fondo: var(--cal-2);
+    --b-texto: var(--tinta-suave);
+    border-color: rgb(var(--tinta-rgb) / 0.3);
     pointer-events: none;
     box-shadow: none;
   }

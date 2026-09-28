@@ -15,7 +15,7 @@ Fotos con licencia libre de **Wikimedia Commons**. Son platos equivalentes, **no
 La página `/aviso-legal/#fotos` enlaza cada ficha.
 
 ## Tipografías
-Young Serif, Caveat y Figtree, de Google Fonts (SIL Open Font License).
+Alfa Slab One y Work Sans (SIL Open Font License) y Permanent Marker (Apache 2.0), de Google Fonts.
 
 ## Ilustraciones
 Azulejos, fachada, pizarra, olla y demás dibujos: SVG hechos para esta web.

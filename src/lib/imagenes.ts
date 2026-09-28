@@ -5,20 +5,43 @@ import sharp from 'sharp';
 import opentype from 'opentype.js';
 import { negocio } from '../data/negocio';
 
-const FUENTES = {
-  titulo: 'https://fonts.gstatic.com/s/youngserif/v2/3qTpojO2nS2VtkB3KtkQZ2t6.ttf',
-  texto: 'https://fonts.gstatic.com/s/figtree/v9/_Xmz-HUzqDCFdgfMsYiV_F7wfS-Bs_f_R15e.ttf',
-  mano: 'https://fonts.gstatic.com/s/caveat/v23/WnznHAc5bAfYB2QRah7pcpNvOx-pjRV6SII.ttf',
+// Mismos colores que los tokens de global.css
+const C = {
+  cal: '#f7f4ec',
+  blanco: '#fdfcf8',
+  albero: '#e2b33c',
+  persiana: '#2e6b4f',
+  persianaOsc: '#1f4a37',
+  geranio: '#c8372d',
+  tinta: '#1f2622',
+  tintaSuave: '#4a534d',
 };
-type Estilo = keyof typeof FUENTES;
+
+// Familia de Google Fonts por estilo (se resuelve la URL del .ttf en el build).
+const FAMILIAS = {
+  titulo: 'Alfa Slab One',
+  texto: 'Work Sans:wght@700',
+  mano: 'Permanent Marker',
+};
+type Estilo = keyof typeof FAMILIAS;
 type Fuentes = Partial<Record<Estilo, opentype.Font>>;
+
+async function urlTtf(familia: string) {
+  // Con un User-Agent antiguo, Google Fonts sirve TTF en lugar de WOFF2.
+  const css = await fetch(`https://fonts.googleapis.com/css2?family=${familia.replaceAll(' ', '+')}`, {
+    headers: { 'User-Agent': 'Mozilla/4.0' },
+  }).then((r) => r.text());
+  return css.match(/url\((https:[^)]+\.ttf)\)/)?.[1];
+}
 
 async function cargarFuentes(): Promise<Fuentes> {
   const out: Fuentes = {};
   await Promise.all(
-    (Object.keys(FUENTES) as Estilo[]).map(async (k) => {
+    (Object.keys(FAMILIAS) as Estilo[]).map(async (k) => {
       try {
-        const res = await fetch(FUENTES[k]);
+        const url = await urlTtf(FAMILIAS[k]);
+        if (!url) return;
+        const res = await fetch(url);
         if (res.ok) out[k] = opentype.parse(await res.arrayBuffer());
       } catch {
         /* sin red: se usa <text> con fuentes del sistema */
@@ -29,9 +52,9 @@ async function cargarFuentes(): Promise<Fuentes> {
 }
 
 const RESPALDO: Record<Estilo, string> = {
-  titulo: "font-family=\"Young Serif, Georgia, serif\"",
-  texto: "font-family=\"Figtree, Arial, sans-serif\" font-weight=\"800\"",
-  mano: "font-family=\"Caveat, cursive\" font-weight=\"700\"",
+  titulo: 'font-family="Alfa Slab One, Rockwell, Georgia, serif"',
+  texto: 'font-family="Work Sans, Arial, sans-serif" font-weight="700"',
+  mano: 'font-family="Permanent Marker, cursive"',
 };
 
 // Estrella de 5 puntas centrada en 0,0 (radio ~11)
@@ -62,11 +85,12 @@ function texto(
 const azulejo = `
   <pattern id="az" width="60" height="60" patternUnits="userSpaceOnUse">
     <g transform="scale(1.25)">
-      <rect width="48" height="48" fill="#f7efdc"/>
-      <rect x="1" y="1" width="46" height="46" fill="none" stroke="#1d4a86" stroke-width="2"/>
-      <g fill="#1d4a86"><path d="M0 0h13a13 13 0 0 1-13 13Z"/><path d="M48 0H35a13 13 0 0 0 13 13Z"/><path d="M0 48h13a13 13 0 0 0-13-13Z"/><path d="M48 48H35a13 13 0 0 1 13-13Z"/></g>
-      <path d="M24 9c2.5 6 3.8 8.5 15 15-11.2 6.5-12.5 9-15 15-2.5-6-3.8-8.5-15-15 11.2-6.5 12.5-9 15-15Z" fill="#1d4a86"/>
-      <circle cx="24" cy="24" r="5.2" fill="#dfa52a"/><circle cx="24" cy="24" r="2" fill="#a13d25"/>
+      <rect width="48" height="48" fill="${C.blanco}"/>
+      <rect x="1" y="1" width="46" height="46" fill="none" stroke="${C.persiana}" stroke-width="2"/>
+      <g fill="${C.persiana}"><path d="M0 0h13a13 13 0 0 1-13 13Z"/><path d="M48 0H35a13 13 0 0 0 13 13Z"/><path d="M0 48h13a13 13 0 0 0-13-13Z"/><path d="M48 48H35a13 13 0 0 1 13-13Z"/></g>
+      <path d="M24 8 40 24 24 40 8 24Z" fill="${C.albero}"/>
+      <path d="M24 14 34 24 24 34 14 24Z" fill="none" stroke="${C.persiana}" stroke-width="1.6"/>
+      <circle cx="24" cy="24" r="4.2" fill="${C.geranio}"/>
     </g>
   </pattern>`;
 
@@ -76,42 +100,45 @@ export async function ogPng() {
   const svg = `
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
   <defs>${azulejo}</defs>
-  <rect width="1200" height="630" fill="#f1e6d0"/>
-  <rect y="570" width="1200" height="60" fill="url(#az)"/>
-  <rect y="567" width="1200" height="4" fill="#2b211a"/>
-  <g transform="translate(80 70)" stroke="#2b211a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M40 30c5-9-3-12 2-20M58 30c5-9-3-12 2-20M76 30c5-9-3-12 2-20" fill="none"/>
-    <path d="M10 44h110"/>
-    <path d="M18 48h94v30a30 30 0 0 1-30 30H48a30 30 0 0 1-30-30z" fill="#a13d25"/>
-    <path d="M18 60H4M112 60h14"/>
+  <rect width="1200" height="630" fill="${C.cal}"/>
+  <rect y="560" width="1200" height="70" fill="url(#az)"/>
+  <rect y="552" width="1200" height="8" fill="${C.albero}"/>
+  <rect y="548" width="1200" height="4" fill="${C.tinta}"/>
+
+  <!-- rótulo -->
+  <g transform="translate(80 58) rotate(-1.5)">
+    <rect width="330" height="112" rx="8" fill="${C.persiana}" stroke="${C.tinta}" stroke-width="4"/>
+    <rect x="10" y="10" width="310" height="92" rx="4" fill="none" stroke="${C.albero}" stroke-width="3"/>
+    ${texto(f, 'titulo', 'La Tita', 165, 84, 66, C.blanco, { centro: true })}
   </g>
-  ${texto(f, 'titulo', 'La Tita', 230, 160, 110, '#2b211a')}
-  ${texto(f, 'texto', 'COMIDAS CASERAS · HUELVA', 236, 200, 24, '#5b4a3c', { espaciado: 0.29 })}
-  ${texto(f, 'titulo', 'Aquí se guisa', 80, 330, 76, '#2b211a')}
-  ${texto(f, 'titulo', 'como en casa.', 80, 415, 76, '#a13d25')}
-  <path d="M84 432C240 418 380 414 560 424" fill="none" stroke="#dfa52a" stroke-width="10" stroke-linecap="round"/>
-  ${texto(f, 'texto', `Para llevar · Encargos por WhatsApp ${negocio.telefono}`, 80, 500, 30, '#2b211a')}
-  <g transform="translate(990 330) rotate(-8)">
-    <circle r="130" fill="#dfa52a" stroke="#2b211a" stroke-width="5"/>
-    <circle r="100" fill="none" stroke="#2b211a" stroke-width="2" stroke-dasharray="4 7"/>
-    ${texto(f, 'titulo', nota, 0, -10, 78, '#2b211a', { centro: true })}
-    ${[-2, -1, 0, 1, 2].map((i) => `<path transform="translate(${i * 26} 20) scale(1.05)" d="${ESTRELLA}" fill="#a13d25"/>`).join('')}
-    ${texto(f, 'mano', `${negocio.valoracion.resenas} reseñas`, 0, 62, 34, '#2b211a', { centro: true })}
+  ${texto(f, 'texto', 'COMIDAS CASERAS · HUELVA', 84, 212, 22, C.tintaSuave, { espaciado: 0.24 })}
+
+  ${texto(f, 'titulo', 'Aquí se guisa', 80, 320, 64, C.tinta)}
+  ${texto(f, 'titulo', 'como en casa.', 80, 398, 64, C.geranio)}
+  <path d="M84 418C240 405 380 402 548 410" fill="none" stroke="${C.albero}" stroke-width="12" stroke-linecap="round"/>
+  ${texto(f, 'texto', `Para llevar · Encargos por WhatsApp ${negocio.telefono}`, 80, 486, 28, C.tinta)}
+
+  <g transform="translate(990 300) rotate(-8)">
+    <circle r="130" fill="${C.albero}" stroke="${C.tinta}" stroke-width="5"/>
+    <circle r="98" fill="${C.blanco}" stroke="${C.tinta}" stroke-width="2" stroke-dasharray="4 7"/>
+    ${texto(f, 'titulo', nota, 0, -4, 66, C.persiana, { centro: true })}
+    ${[-2, -1, 0, 1, 2].map((i) => `<path transform="translate(${i * 26} 26) scale(1.05)" d="${ESTRELLA}" fill="${C.geranio}"/>`).join('')}
+    ${texto(f, 'mano', `${negocio.valoracion.resenas} reseñas`, 0, 68, 24, C.tinta, { centro: true })}
   </g>
-  <g transform="rotate(-4 835 120)">
-    ${texto(f, 'mano', `¡${negocio.anyos} años en el barrio!`, 835, 120, 44, '#1d4a86')}
+  <g transform="rotate(-4 800 110)">
+    ${texto(f, 'mano', `¡${negocio.anyos} años en el barrio!`, 800, 110, 32, C.persiana)}
   </g>
 </svg>`;
   return sharp(Buffer.from(svg)).png({ compressionLevel: 9 }).toBuffer();
 }
 
 export const faviconSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="14" fill="#f1e6d0"/>
-  <g stroke="#2b211a" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M24 16c3-5-2-7 1-11M33 16c3-5-2-7 1-11M42 16c3-5-2-7 1-11" fill="none"/>
-    <path d="M8 26h48"/>
-    <path d="M12 28h40v12a14 14 0 0 1-14 14H26a14 14 0 0 1-14-14z" fill="#a13d25"/>
-    <path d="M12 33H6M52 33h6"/>
+  <rect width="64" height="64" rx="14" fill="${C.persiana}"/>
+  <g stroke="${C.tinta}" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M24 16c3-5-2-7 1-11M33 16c3-5-2-7 1-11M42 16c3-5-2-7 1-11" fill="none" stroke="${C.blanco}"/>
+    <path d="M8 26h48" stroke="${C.blanco}"/>
+    <path d="M12 28h40v12a14 14 0 0 1-14 14H26a14 14 0 0 1-14-14z" fill="${C.geranio}" stroke="${C.blanco}"/>
+    <path d="M12 33H6M52 33h6" stroke="${C.blanco}"/>
   </g>
 </svg>`;
 
