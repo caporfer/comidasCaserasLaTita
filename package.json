@@ -1,0 +1,22 @@
+{
+  "name": "comidas-caseras-la-tita",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Web de Comidas Caseras La Tita — comida casera para llevar en Huelva",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "fotos": "node scripts/descargar-fotos.mjs"
+  },
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "3.7.4",
+    "astro": "7.3.5",
+    "opentype.js": "1.3.4",
+    "sharp": "0.35.5"
+  }
+}

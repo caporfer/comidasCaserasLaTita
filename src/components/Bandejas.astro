@@ -1,0 +1,137 @@
+---
+import Icono from './Icono.astro';
+import { waLink } from '../data/negocio';
+
+const bolsas = [
+  {
+    titulo: 'Croquetas por docenas',
+    texto: 'Las de jamón y queso, las de puchero… Para el cumpleaños, el partido o la visita de la suegra.',
+    msg: '¡Hola Tita! Quería encargar croquetas por docenas para',
+  },
+  {
+    titulo: 'Tortillas enteras',
+    texto: 'Una o cinco. Con cebolla, sin cebolla, poco hechas… tú mandas.',
+    msg: '¡Hola Tita! Quería encargar tortillas enteras para',
+  },
+  {
+    titulo: 'Bandeja de empanados',
+    texto: 'Empanadillas, flamenquines y san jacobos, variadito y listo para poner en la mesa.',
+    msg: '¡Hola Tita! Quería encargar una bandeja de empanados para',
+  },
+];
+---
+
+<section class="seccion bandejas" aria-labelledby="bandejas-titulo">
+  <div class="envoltorio">
+    <div class="cabeza">
+      <p class="antetitulo">¿celebración en casa?</p>
+      <h2 id="bandejas-titulo">Encargos grandes, sin agobios</h2>
+      <p>
+        Comuniones, cumpleaños, reuniones de la peña o cenas de Navidad: la Tita te prepara cantidad. Avisa con un
+        par de días para que le dé tiempo a hacerlo todo como toca.
+      </p>
+    </div>
+
+    <ul class="bolsas">
+      {
+        bolsas.map((b, i) => (
+          <li class="bolsa" style={`--giro:${[-2, 1.5, -1][i]}deg`}>
+            <span class="pliegue" aria-hidden="true" />
+            <span class="sello-bolsa" aria-hidden="true">La Tita</span>
+            <h3>{b.titulo}</h3>
+            <p>{b.texto}</p>
+            <a href={waLink(`${b.msg} el día `)} target="_blank" rel="noopener" class="pedir">
+              <Icono nombre="whatsapp" /> Pedir presupuesto
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .bandejas {
+    background: var(--papel-2);
+    border-top: 2px solid var(--tinta);
+  }
+  .cabeza {
+    max-width: 640px;
+    margin-bottom: 56px;
+  }
+  .cabeza p:last-child {
+    color: var(--tinta-suave);
+  }
+  .bolsas {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(20px, 3vw, 40px);
+  }
+  /* bolsa de papel de estraza */
+  .bolsa {
+    position: relative;
+    padding: 64px 26px 28px;
+    background:
+      linear-gradient(90deg, rgba(0, 0, 0, 0.05) 0 2px, transparent 2px) 0 0 / 7px 100%,
+      linear-gradient(#caa877, #b8935f);
+    color: var(--tinta);
+    clip-path: polygon(0 18px, 4% 0, 8% 18px, 12% 0, 16% 18px, 20% 0, 24% 18px, 28% 0, 32% 18px, 36% 0, 40% 18px, 44% 0, 48% 18px, 52% 0, 56% 18px, 60% 0, 64% 18px, 68% 0, 72% 18px, 76% 0, 80% 18px, 84% 0, 88% 18px, 92% 0, 96% 18px, 100% 0, 100% 100%, 0 100%);
+    transform: rotate(var(--giro));
+    filter: drop-shadow(0 12px 12px rgba(43, 33, 26, 0.3));
+  }
+  .pliegue {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 18px;
+    height: 28px;
+    background: rgba(0, 0, 0, 0.08);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+  }
+  .sello-bolsa {
+    position: absolute;
+    right: 18px;
+    top: 58px;
+    font-family: var(--f-titulo);
+    font-size: 1rem;
+    color: var(--almagra);
+    border: 2px solid var(--almagra);
+    border-radius: 50%;
+    width: 64px;
+    height: 64px;
+    display: grid;
+    place-items: center;
+    transform: rotate(-14deg);
+    opacity: 0.8;
+  }
+  .bolsa h3 {
+    font-size: 1.6rem;
+    max-width: 12ch;
+    margin-top: 10px;
+  }
+  .bolsa p {
+    color: #3f3226;
+  }
+  .pedir {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 800;
+    color: var(--tinta);
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+  }
+  .pedir :global(svg) {
+    width: 20px;
+    color: var(--wa);
+  }
+  @media (max-width: 860px) {
+    .bolsas {
+      grid-template-columns: minmax(0, 1fr);
+      max-width: 460px;
+    }
+  }
+</style>

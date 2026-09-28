@@ -1,0 +1,15 @@
+Aquí van las fotos propias de La Tita.
+
+Nombra el archivo igual que el "id" de src/data/fotos.ts y la web lo usará
+en lugar de la foto de Wikimedia Commons:
+
+  tortilla.jpg        → portada, foto grande
+  croquetas.jpg       → portada
+  lentejas.jpg        → portada y pestaña "De cuchara"
+  croquetas-2.jpg     → pestaña "Empanados y fritos"
+  tortilla-corte.jpg  → pestaña "Tortillas"
+  paella.jpg          → pestaña "Arroces"
+  flan.jpg            → pestaña "Postres"
+  empanadillas.jpg    → (reserva)
+
+Formato recomendado: JPG horizontal, unos 1200 px de ancho.

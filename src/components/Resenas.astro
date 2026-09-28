@@ -1,0 +1,153 @@
+---
+import Icono from './Icono.astro';
+import { resenas } from '../data/resenas';
+import { negocio } from '../data/negocio';
+const giros = [-3, 2, -1.5, 3.5];
+---
+
+<section class="seccion resenas" aria-labelledby="resenas-titulo">
+  <div class="envoltorio">
+    <div class="cabeza">
+      <div>
+        <p class="antetitulo">lo que se dice en el barrio</p>
+        <h2 id="resenas-titulo">Palabra de cliente</h2>
+      </div>
+      <a class="nota-google" href={negocio.mapsFicha} target="_blank" rel="noopener">
+        <span class="grande">{negocio.valoracion.nota.toLocaleString('es-ES')}</span>
+        <span>
+          <span class="estrellas" aria-hidden="true">
+            {Array.from({ length: 5 }, () => <Icono nombre="estrella" />)}
+          </span>
+          {negocio.valoracion.resenas} reseñas en Google <Icono nombre="flecha" class="flechita" />
+        </span>
+      </a>
+    </div>
+
+    <ul class="corcho">
+      {
+        resenas.map((r, i) => (
+          <li class:list={['postit', r.color]} style={`--giro:${giros[i % giros.length]}deg`}>
+            <span class="chincheta" aria-hidden="true" />
+            <p class="mano">«{r.texto}»</p>
+            <span class="estrellitas" aria-label={`${r.estrellas} de 5 estrellas`}>
+              {'★'.repeat(r.estrellas)}
+            </span>
+          </li>
+        ))
+      }
+    </ul>
+    <p class="fuente">Extractos de reseñas públicas en Google y Restaurant Guru.</p>
+  </div>
+</section>
+
+<style>
+  .cabeza {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: 24px;
+    flex-wrap: wrap;
+    margin-bottom: 48px;
+  }
+  .nota-google {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    color: var(--tinta);
+    text-decoration: none;
+    background: var(--crema);
+    border: 2px solid var(--tinta);
+    border-radius: 999px;
+    padding: 10px 22px 10px 14px;
+    box-shadow: 3px 3px 0 var(--tinta);
+    font-weight: 600;
+  }
+  .nota-google > span:last-child {
+    display: grid;
+  }
+  .grande {
+    font-family: var(--f-titulo);
+    font-size: 2.6rem;
+    line-height: 1;
+  }
+  .estrellas {
+    display: flex;
+    gap: 2px;
+    color: var(--mostaza);
+  }
+  .estrellas :global(svg) {
+    width: 18px;
+  }
+  .nota-google :global(.flechita) {
+    display: inline;
+    width: 16px;
+    vertical-align: -3px;
+  }
+  .corcho {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: clamp(24px, 3vw, 40px);
+  }
+  .postit {
+    position: relative;
+    padding: 34px 24px 22px;
+    min-height: 210px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transform: rotate(var(--giro));
+    box-shadow: 0 18px 20px -16px rgba(43, 33, 26, 0.55);
+    transition: transform 0.25s ease;
+  }
+  .postit:hover {
+    transform: rotate(0) translateY(-4px);
+  }
+  .postit::after {
+    /* esquina levantada */
+    content: '';
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 28px;
+    height: 28px;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.12) 50%, var(--papel) 50%);
+  }
+  .amarillo {
+    background: #f7df7c;
+  }
+  .rosa {
+    background: #f4b8a8;
+  }
+  .azul {
+    background: #bcd4ee;
+  }
+  .verde {
+    background: #cfdea3;
+  }
+  .postit p {
+    font-size: 1.75rem;
+    margin: 0 0 14px;
+  }
+  .estrellitas {
+    color: var(--almagra);
+    letter-spacing: 2px;
+  }
+  .chincheta {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #e46a4d, var(--almagra-osc));
+    box-shadow: 1px 3px 3px rgba(0, 0, 0, 0.35);
+  }
+  .fuente {
+    margin-top: 32px;
+    font-size: 0.85rem;
+    color: var(--tinta-suave);
+  }
+</style>

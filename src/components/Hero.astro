@@ -1,0 +1,197 @@
+---
+import Polaroid from './Polaroid.astro';
+import Icono from './Icono.astro';
+import { fotos } from '../data/fotos';
+import { negocio, waLink } from '../data/negocio';
+
+const nota = negocio.valoracion.nota.toLocaleString('es-ES');
+---
+
+<section class="hero">
+  <div class="envoltorio hero-in">
+    <div class="texto">
+      <p class="antetitulo">{negocio.anyos} años en {negocio.direccion.calle.replace('C. ', 'la calle ')}</p>
+      <h1>
+        <span class="linea-h1">Aquí se guisa</span>
+        <span class="linea-h1 subrayado">como en casa.</span>
+      </h1>
+      <p class="entrada">
+        Tortillas, croquetas, guisos de cuchara y empanados hechos a mano por la Tita, para llevártelos
+        calentitos. Escríbele por WhatsApp, pasa a recoger y a comer.
+      </p>
+      <div class="acciones">
+        <a class="boton boton--wa" href={waLink('¡Hola Tita! ¿Qué tienes hoy?')} target="_blank" rel="noopener">
+          <Icono nombre="whatsapp" /> ¿Qué hay hoy, Tita?
+        </a>
+        <a class="boton boton--claro" href="#carta">Ver la carta <Icono nombre="flecha" /></a>
+      </div>
+      <p class="estado-hero">
+        <Icono nombre="reloj" />
+        <span class="estado" data-estado>Mediodía y noche, de lunes a sábado</span>
+      </p>
+    </div>
+
+    <div class="collage" aria-label="Algunos de los platos de la Tita">
+      <Polaroid foto={fotos.tortilla} pie="la tortilla, sin discusión" giro={-4} ancho={900} prioridad class="p1" />
+      <Polaroid foto={fotos.croquetas} pie="croquetas" giro={5} ancho={600} cinta="esquinas" prioridad class="p2" />
+      <Polaroid foto={fotos.lentejas} giro={-2} ancho={500} class="p3" />
+
+      <a class="sello" href={negocio.mapsFicha} target="_blank" rel="noopener" aria-label={`${nota} estrellas en Google con ${negocio.valoracion.resenas} reseñas`}>
+        <svg viewBox="0 0 200 200" aria-hidden="true">
+          <defs>
+            <path id="circulo-sello" d="M100 100m-74 0a74 74 0 1 1 148 0a74 74 0 1 1-148 0" />
+          </defs>
+          <circle cx="100" cy="100" r="96" fill="var(--mostaza)" stroke="var(--tinta)" stroke-width="4" />
+          <circle cx="100" cy="100" r="58" fill="none" stroke="var(--tinta)" stroke-width="2" stroke-dasharray="3 5" />
+          <text font-family="Figtree, sans-serif" font-weight="800" font-size="15" fill="var(--tinta)">
+            <textPath href="#circulo-sello" textLength="458" lengthAdjust="spacing">{`${negocio.valoracion.resenas} RESEÑAS EN GOOGLE ✦ CLIENTELA FIJA ✦ `}</textPath>
+          </text>
+        </svg>
+        <span class="sello-nota">
+          <strong>{nota}</strong>
+          <span class="estrellas">★★★★★</span>
+        </span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    padding-block: clamp(40px, 7vw, 96px) clamp(64px, 9vw, 120px);
+    overflow: hidden;
+  }
+  .hero-in {
+    display: grid;
+    grid-template-columns: 1.05fr 1fr;
+    gap: clamp(32px, 5vw, 72px);
+    align-items: center;
+  }
+  h1 {
+    font-size: clamp(2.55rem, 6.6vw, 5.6rem);
+    line-height: 0.98;
+    margin-bottom: 0.35em;
+  }
+  .linea-h1 {
+    display: block;
+    white-space: nowrap;
+  }
+  .subrayado {
+    width: fit-content;
+  }
+  .subrayado {
+    color: var(--almagra);
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 20' preserveAspectRatio='none'%3E%3Cpath d='M3 14C60 6 120 4 297 9' fill='none' stroke='%23dfa52a' stroke-width='7' stroke-linecap='round'/%3E%3C/svg%3E")
+      no-repeat 0 100% / 100% 0.28em;
+    padding-bottom: 0.08em;
+  }
+  .entrada {
+    font-size: clamp(1.1rem, 1.8vw, 1.3rem);
+    max-width: 34ch;
+    color: var(--tinta-suave);
+  }
+  .acciones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin: 28px 0 22px;
+  }
+  .estado-hero {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--tinta-suave);
+  }
+  .estado-hero > :global(svg) {
+    width: 20px;
+    flex: none;
+  }
+
+  .collage {
+    position: relative;
+    min-height: 520px;
+  }
+  .collage :global(.p1) {
+    position: absolute;
+    width: 68%;
+    left: 4%;
+    top: 4%;
+    z-index: 2;
+  }
+  .collage :global(.p2) {
+    position: absolute;
+    width: 46%;
+    right: 0;
+    top: 0;
+    z-index: 1;
+  }
+  .collage :global(.p3) {
+    position: absolute;
+    width: 44%;
+    right: 4%;
+    bottom: 0;
+    z-index: 3;
+  }
+  .collage :global(.polaroid:hover) {
+    transform: rotate(0deg) scale(1.02);
+    z-index: 5;
+  }
+  .sello {
+    position: absolute;
+    left: -2%;
+    bottom: 2%;
+    width: 150px;
+    aspect-ratio: 1;
+    z-index: 4;
+    color: var(--tinta);
+    text-decoration: none;
+    display: grid;
+    place-items: center;
+    filter: drop-shadow(3px 4px 0 rgba(43, 33, 26, 0.25));
+  }
+  .sello svg {
+    position: absolute;
+    inset: 0;
+    animation: girar 38s linear infinite;
+  }
+  .sello-nota {
+    position: relative;
+    display: grid;
+    justify-items: center;
+    line-height: 1;
+  }
+  .sello-nota strong {
+    font-family: var(--f-titulo);
+    font-size: 2.3rem;
+    font-weight: 400;
+  }
+  .estrellas {
+    font-size: 0.7rem;
+    letter-spacing: 1px;
+    color: var(--almagra);
+  }
+  @keyframes girar {
+    to {
+      rotate: 360deg;
+    }
+  }
+
+  @media (max-width: 900px) {
+    .hero-in {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .collage {
+      min-height: 0;
+      aspect-ratio: 1 / 0.95;
+      max-width: 560px;
+      width: 100%;
+      margin-inline: auto;
+    }
+    .sello {
+      width: 118px;
+    }
+    .sello-nota strong {
+      font-size: 1.8rem;
+    }
+  }
+</style>

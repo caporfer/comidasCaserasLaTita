@@ -1,0 +1,91 @@
+---
+import Azulejo from './Azulejo.astro';
+import Logo from './Logo.astro';
+import Icono from './Icono.astro';
+import { negocio, direccionCompleta, telLink, waLink } from '../data/negocio';
+---
+
+<footer class="pie">
+  <Azulejo alto={40} />
+  <div class="envoltorio pie-in">
+    <div>
+      <Logo claro />
+      <p class="lema">{negocio.lema}. Desde hace {negocio.anyos} años.</p>
+    </div>
+    <div>
+      <p class="titulillo">Dónde</p>
+      <p>{direccionCompleta}</p>
+      <p><a href={negocio.mapsComoLlegar} target="_blank" rel="noopener">Cómo llegar</a></p>
+    </div>
+    <div>
+      <p class="titulillo">Encargos</p>
+      <p><a href={telLink}>{negocio.telefono}</a></p>
+      <p><a href={waLink('¡Hola Tita!')} target="_blank" rel="noopener">WhatsApp</a></p>
+      <p>
+        <a href={negocio.facebook} target="_blank" rel="noopener" class="fb"><Icono nombre="facebook" /> Facebook</a>
+      </p>
+    </div>
+  </div>
+  <div class="envoltorio legal">
+    <span>© {new Date().getFullYear()} {negocio.nombre}</span>
+    <a href="/aviso-legal/">Aviso legal y privacidad</a>
+    <a href="/aviso-legal/#fotos">Créditos de las fotos</a>
+  </div>
+</footer>
+
+<style>
+  .pie {
+    background: var(--tinta);
+    color: var(--papel);
+    padding-bottom: 110px;
+  }
+  .pie-in {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr;
+    gap: 32px;
+    padding-block: 56px 36px;
+  }
+  .pie p {
+    margin: 0 0 6px;
+  }
+  .lema {
+    margin-top: 16px !important;
+    opacity: 0.75;
+    max-width: 30ch;
+  }
+  .titulillo {
+    font-family: var(--f-mano);
+    font-size: 1.6rem;
+    color: var(--mostaza);
+  }
+  .pie a {
+    color: var(--papel);
+  }
+  .fb {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .fb :global(svg) {
+    width: 18px;
+  }
+  .legal {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 24px;
+    border-top: 1px solid rgba(241, 230, 208, 0.2);
+    padding-top: 20px;
+    font-size: 0.85rem;
+    opacity: 0.75;
+  }
+  @media (min-width: 861px) {
+    .pie {
+      padding-bottom: 32px;
+    }
+  }
+  @media (max-width: 760px) {
+    .pie-in {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

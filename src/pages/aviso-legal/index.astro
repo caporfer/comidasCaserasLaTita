@@ -1,0 +1,81 @@
+---
+import Base from '../../layouts/Base.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { negocio, direccionCompleta } from '../../data/negocio';
+import { fotos, commonsPagina } from '../../data/fotos';
+---
+
+<Base titulo="Aviso legal y privacidad · La Tita" descripcion="Aviso legal, privacidad y créditos de la web de Comidas Caseras La Tita.">
+  <Header />
+  <main id="contenido" class="envoltorio legal">
+    <p class="antetitulo">lo que hay que poner</p>
+    <h1>Aviso legal y privacidad</h1>
+
+    <h2>Titular</h2>
+    <p>
+      <strong>{negocio.nombre}</strong><br />
+      <!-- PENDIENTE: nombre y apellidos o razón social, y NIF/CIF del titular (LSSI, art. 10) -->
+      Titular: <span class="pendiente">[nombre y apellidos / razón social]</span> · NIF: <span class="pendiente">[NIF]</span><br />
+      Domicilio: {direccionCompleta}<br />
+      Teléfono: {negocio.telefono}
+    </p>
+
+    <h2>Qué datos se recogen</h2>
+    <p>
+      Esta web no usa cookies de seguimiento ni formularios que envíen datos a ningún servidor. El formulario de
+      encargo solo prepara un mensaje de WhatsApp en tu propio móvil; lo que escribas no sale de tu navegador hasta
+      que tú lo envías por WhatsApp. El encargo en curso se guarda en tu navegador (almacenamiento local) para que no
+      lo pierdas si recargas la página.
+    </p>
+    <p>
+      Los mensajes que envíes por WhatsApp o las llamadas se usan solo para preparar tu encargo. Puedes pedir que se
+      borren escribiendo al mismo número.
+    </p>
+
+    <h2>Mapa</h2>
+    <p>
+      El mapa de la sección «Dónde está la Tita» lo sirve Google Maps, que puede usar sus propias cookies según su
+      política de privacidad.
+    </p>
+
+    <h2 id="fotos">Créditos de las fotos</h2>
+    <p>
+      Mientras llegan las fotos de la propia cocina, algunas imágenes de platos son fotografías con licencia libre
+      de Wikimedia Commons. Son platos equivalentes, no fotos del local. Autoría y licencia de cada una:
+    </p>
+    <ul>
+      {
+        Object.values(fotos).map((f) => (
+          <li>
+            {f.alt}: <a href={commonsPagina(f)} target="_blank" rel="noopener">{f.commons}</a> (Wikimedia Commons; autor
+            y licencia en la ficha)
+          </li>
+        ))
+      }
+    </ul>
+    <p>Ilustraciones, azulejos y dibujos: hechos a mano para esta web.</p>
+  </main>
+  <Footer />
+</Base>
+
+<style>
+  .legal {
+    padding-block: clamp(48px, 8vw, 96px);
+    max-width: 760px;
+  }
+  h1 {
+    font-size: clamp(2.4rem, 6vw, 3.6rem);
+  }
+  h2 {
+    font-size: 1.6rem;
+    margin-top: 1.6em;
+  }
+  .pendiente {
+    background: var(--mostaza);
+    padding: 0 4px;
+  }
+  li {
+    margin-bottom: 6px;
+  }
+</style>

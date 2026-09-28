@@ -1,0 +1,550 @@
+---
+import Polaroid from './Polaroid.astro';
+import Icono from './Icono.astro';
+import { carta } from '../data/carta';
+import { fotos } from '../data/fotos';
+import { negocio } from '../data/negocio';
+
+const fotoCategoria = {
+  empanados: { foto: fotos.croquetas2, pie: 'croquetas de jamón y queso' },
+  cuchara: { foto: fotos.lentejas, pie: 'lentejas' },
+  tortillas: { foto: fotos.tortillaCorte, pie: '¿con o sin cebolla?' },
+  arroces: { foto: fotos.paella, pie: 'domingo de paella' },
+  postres: { foto: fotos.flan, pie: 'flan de huevo' },
+} as Record<string, { foto: (typeof fotos)[keyof typeof fotos]; pie: string }>;
+
+// Horas de recogida a partir del horario de lunes (cada media hora).
+const horas = negocio.horario.dias[1].map(([a, c]) => {
+  const lista: string[] = [];
+  let [h, m] = a.split(':').map(Number);
+  const [hc, mc] = c.split(':').map(Number);
+  while (h * 60 + m <= hc * 60 + mc - 30) {
+    lista.push(`${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`);
+    m += 30;
+    if (m === 60) {
+      h++;
+      m = 0;
+    }
+  }
+  return { etiqueta: h < 18 ? 'Mediodía' : 'Noche', lista, rango: `${a}–${c}` };
+});
+---
+
+<section class="seccion carta-sec" id="carta" aria-labelledby="carta-titulo">
+  <div class="envoltorio">
+    <header class="cabecera-carta">
+      <p class="antetitulo">lo que sale de la cocina</p>
+      <h2 id="carta-titulo">La carta</h2>
+      <p>
+        Pulsa <span class="mas-inline" aria-hidden="true">+</span> en lo que te apetezca y se va apuntando en tu
+        encargo. Al final se lo mandas a la Tita por WhatsApp con el mensaje ya escrito.
+      </p>
+    </header>
+
+    <div class="rejilla">
+      <div class="carta">
+        <div class="pestanas" role="tablist" aria-label="Categorías de la carta">
+          {
+            carta.map((c, i) => (
+              <button
+                role="tab"
+                id={`tab-${c.id}`}
+                aria-controls={`panel-${c.id}`}
+                aria-selected={i === 0 ? 'true' : 'false'}
+                tabindex={i === 0 ? 0 : -1}
+              >
+                {c.titulo}
+              </button>
+            ))
+          }
+        </div>
+
+        {
+          carta.map((c, i) => (
+            <div class="panel" role="tabpanel" id={`panel-${c.id}`} aria-labelledby={`tab-${c.id}`} hidden={i !== 0}>
+              <div class="panel-cabeza">
+                <div>
+                  <h3>{c.titulo}</h3>
+                  <p class="entradilla">{c.entradilla}</p>
+                </div>
+                {fotoCategoria[c.id] && (
+                  <Polaroid
+                    foto={fotoCategoria[c.id].foto}
+                    pie={fotoCategoria[c.id].pie}
+                    giro={i % 2 ? 3 : -3}
+                    ancho={500}
+                    class="foto-cat"
+                  />
+                )}
+              </div>
+              <ul class="platos">
+                {c.platos.map((p) => (
+                  <li class="plato">
+                    <div class="plato-texto">
+                      <p class="plato-linea">
+                        <span class="plato-nombre">{p.nombre}</span>
+                        <span class="puntos" aria-hidden="true" />
+                        <span class="plato-precio">{p.precio ?? `por ${p.unidad}`}</span>
+                      </p>
+                      {p.nota && <p class="plato-nota">{p.nota}</p>}
+                      {p.fama && <p class="fama mano">← {p.fama}</p>}
+                    </div>
+                    <button
+                      class="anadir"
+                      type="button"
+                      data-anadir={p.id}
+                      data-nombre={p.nombre}
+                      data-unidad={p.unidad}
+                      aria-label={`Añadir ${p.nombre} al encargo`}
+                    >
+                      <Icono nombre="mas" />
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
+        <p class="pie-carta">
+          Los precios, de palabra y al día: pregunta a la Tita, que no hay sorpresas. Si tienes alguna alergia,
+          díselo en el encargo.
+        </p>
+      </div>
+
+      <aside class="encargo" id="encargo" aria-labelledby="encargo-titulo">
+        <div class="encargo-papel">
+          <h3 id="encargo-titulo" class="mano">Tu encargo</h3>
+          <p class="vacio" data-vacio>Aún nada apuntado. Dale al <strong>+</strong> en lo que te apetezca.</p>
+          <ul class="lineas" data-lineas aria-live="polite"></ul>
+
+          <form class="datos" data-form>
+            <label>
+              <span>Tu nombre</span>
+              <input name="nombre" autocomplete="given-name" placeholder="Para que la Tita sepa quién eres" />
+            </label>
+            <div class="dos">
+              <label>
+                <span>¿Cuándo?</span>
+                <select name="dia">
+                  <option value="hoy">Hoy</option>
+                  <option value="mañana">Mañana</option>
+                </select>
+              </label>
+              <label>
+                <span>¿A qué hora?</span>
+                <select name="hora">
+                  <option value="">Cuanto antes</option>
+                  {
+                    horas.map((t) => (
+                      <optgroup label={`${t.etiqueta} (${t.rango})`}>
+                        {t.lista.map((h) => (
+                          <option value={h}>{h}</option>
+                        ))}
+                      </optgroup>
+                    ))
+                  }
+                </select>
+              </label>
+            </div>
+            <label>
+              <span>Algo más</span>
+              <textarea name="notas" rows="2" placeholder="Tortilla sin cebolla, alergias, el caldo aparte…"></textarea>
+            </label>
+            <a class="boton boton--wa enviar" data-enviar href={`https://wa.me/${negocio.whatsapp}`} target="_blank" rel="noopener" aria-disabled="true">
+              <Icono nombre="whatsapp" /> Enviar a la Tita
+            </a>
+            <p class="ayuda">
+              Se abre WhatsApp con el mensaje ya escrito, solo tienes que darle a enviar. La Tita te confirma.
+            </p>
+          </form>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<template id="tpl-linea">
+  <li class="linea">
+    <span class="linea-nombre"></span>
+    <span class="paso-cant">
+      <button type="button" data-menos aria-label="Quitar uno"><Icono nombre="menos" /></button>
+      <output></output>
+      <button type="button" data-mas aria-label="Añadir uno"><Icono nombre="mas" /></button>
+    </span>
+  </li>
+</template>
+
+<script>
+  import { crearEncargo } from '../scripts/encargo';
+
+  // ——— Pestañas accesibles (flechas izquierda/derecha) ———
+  const tabs = [...document.querySelectorAll<HTMLButtonElement>('[role="tab"]')];
+  function activar(tab: HTMLButtonElement, foco = true) {
+    tabs.forEach((t) => {
+      const sel = t === tab;
+      t.setAttribute('aria-selected', String(sel));
+      t.tabIndex = sel ? 0 : -1;
+      document.getElementById(t.getAttribute('aria-controls')!)!.hidden = !sel;
+    });
+    if (foco) tab.focus();
+  }
+  tabs.forEach((t, i) => {
+    t.addEventListener('click', () => activar(t, false));
+    t.addEventListener('keydown', (e) => {
+      const dir = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+      if (e.key === 'Home') activar(tabs[0]);
+      else if (e.key === 'End') activar(tabs[tabs.length - 1]);
+      else if (dir) activar(tabs[(i + dir + tabs.length) % tabs.length]);
+    });
+  });
+
+  crearEncargo();
+</script>
+
+<style>
+  .carta-sec {
+    padding-top: clamp(56px, 8vw, 100px);
+  }
+  .cabecera-carta {
+    max-width: 640px;
+    margin-bottom: 36px;
+  }
+  .cabecera-carta h2 {
+    font-size: clamp(3rem, 8vw, 5.5rem);
+    margin-bottom: 0.2em;
+  }
+  .cabecera-carta p:last-child {
+    color: var(--tinta-suave);
+  }
+  .mas-inline {
+    display: inline-grid;
+    place-items: center;
+    width: 1.5em;
+    height: 1.5em;
+    border-radius: 50%;
+    background: var(--almagra);
+    color: var(--crema);
+    font-weight: 800;
+    line-height: 1;
+  }
+  .rejilla {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 360px;
+    gap: clamp(24px, 4vw, 48px);
+    align-items: start;
+  }
+
+  /* pestañas tipo separador de libreta */
+  .pestanas {
+    display: flex;
+    gap: 4px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding: 6px 2px 0;
+    margin-bottom: -2px;
+    position: relative;
+    z-index: 1;
+  }
+  .pestanas::-webkit-scrollbar {
+    display: none;
+  }
+  [role='tab'] {
+    flex: none;
+    font: 600 0.98rem var(--f-texto);
+    color: var(--tinta);
+    background: var(--papel-2);
+    border: 2px solid var(--tinta);
+    border-bottom: 0;
+    border-radius: 10px 10px 0 0;
+    padding: 10px 16px 12px;
+    cursor: pointer;
+    transform: translateY(4px);
+    transition: transform 0.15s ease;
+  }
+  [role='tab']:hover {
+    transform: translateY(1px);
+  }
+  [role='tab'][aria-selected='true'] {
+    background: var(--crema);
+    transform: none;
+    padding-bottom: 14px;
+  }
+  .panel {
+    background: var(--crema);
+    border: 2px solid var(--tinta);
+    border-radius: 0 var(--radio) var(--radio) var(--radio);
+    padding: clamp(20px, 3.5vw, 40px);
+    box-shadow: 6px 6px 0 var(--kraft);
+    /* líneas de libreta */
+    background-image: repeating-linear-gradient(transparent 0 35px, rgba(29, 74, 134, 0.09) 35px 36px);
+  }
+  .panel-cabeza {
+    display: grid;
+    grid-template-columns: 1fr 200px;
+    gap: 24px;
+    align-items: start;
+    margin-bottom: 10px;
+  }
+  .panel h3 {
+    font-size: clamp(1.8rem, 3.5vw, 2.4rem);
+    margin-bottom: 0.25em;
+  }
+  .entradilla {
+    color: var(--tinta-suave);
+    max-width: 40ch;
+  }
+  .panel :global(.foto-cat) {
+    margin-top: -6px;
+  }
+  .platos {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .plato {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    padding: 14px 0;
+    border-top: 1px dashed rgba(43, 33, 26, 0.3);
+  }
+  .plato-texto {
+    flex: 1;
+    min-width: 0;
+  }
+  .plato-texto p {
+    margin: 0;
+  }
+  .plato-linea {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+  }
+  .plato-nombre {
+    font-weight: 800;
+    font-size: 1.1rem;
+  }
+  .puntos {
+    flex: 1;
+    border-bottom: 2px dotted rgba(43, 33, 26, 0.45);
+    min-width: 20px;
+    transform: translateY(-4px);
+  }
+  .plato-precio {
+    font-size: 0.9rem;
+    color: var(--tinta-suave);
+    white-space: nowrap;
+    font-style: italic;
+  }
+  .plato-nota {
+    color: var(--tinta-suave);
+    font-size: 0.95rem;
+    margin-top: 2px !important;
+  }
+  .fama {
+    color: var(--almagra);
+    font-size: 1.35rem;
+    transform: rotate(-2deg);
+    transform-origin: left;
+  }
+  .anadir {
+    flex: none;
+    width: 44px;
+    height: 44px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    border: 2px solid var(--tinta);
+    background: var(--almagra);
+    color: var(--crema);
+    cursor: pointer;
+    box-shadow: 2px 2px 0 var(--tinta);
+    transition: transform 0.15s ease, background 0.15s ease;
+  }
+  .anadir :global(svg) {
+    width: 20px;
+  }
+  .anadir:hover {
+    transform: rotate(90deg);
+  }
+  .anadir.hecho {
+    background: var(--wa);
+    animation: pop 0.35s ease;
+  }
+  @keyframes pop {
+    40% {
+      transform: scale(1.2);
+    }
+  }
+  .pie-carta {
+    margin-top: 22px;
+    font-size: 0.95rem;
+    color: var(--tinta-suave);
+  }
+
+  /* ——— Encargo ——— */
+  .encargo {
+    position: sticky;
+    top: 96px;
+  }
+  .encargo-papel {
+    background: #fffdf6;
+    border: 2px solid var(--tinta);
+    border-radius: var(--radio);
+    padding: 22px 22px 24px;
+    box-shadow: 6px 6px 0 var(--azulejo);
+    position: relative;
+  }
+  .encargo-papel::before {
+    content: '';
+    position: absolute;
+    top: -14px;
+    left: 50%;
+    translate: -50% 0;
+    width: 70px;
+    height: 26px;
+    border-radius: 6px 6px 3px 3px;
+    background: linear-gradient(#8e959c, #5d646b);
+    border: 2px solid var(--tinta);
+  }
+  .encargo h3 {
+    font-size: 2.4rem;
+    margin: 4px 0 6px;
+    color: var(--azulejo);
+  }
+  .vacio {
+    color: var(--tinta-suave);
+    font-size: 0.95rem;
+  }
+  .lineas {
+    list-style: none;
+    margin: 0 0 14px;
+    padding: 0;
+  }
+  .lineas :global(.linea) {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px dashed rgba(43, 33, 26, 0.3);
+    font-weight: 600;
+    font-size: 0.98rem;
+  }
+  .lineas :global(.linea-nombre small) {
+    display: block;
+    font-weight: 400;
+    color: var(--tinta-suave);
+  }
+  .lineas :global(.paso-cant) {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    flex: none;
+  }
+  .lineas :global(.paso-cant button) {
+    width: 32px;
+    height: 32px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    border: 2px solid var(--tinta);
+    background: var(--papel);
+    cursor: pointer;
+    color: var(--tinta);
+  }
+  .lineas :global(.paso-cant svg) {
+    width: 14px;
+  }
+  .lineas :global(output) {
+    min-width: 2ch;
+    text-align: center;
+    font-family: var(--f-titulo);
+    font-size: 1.15rem;
+  }
+  .datos {
+    display: grid;
+    gap: 12px;
+  }
+  .datos label {
+    display: grid;
+    gap: 4px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+  .dos {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  input,
+  select,
+  textarea {
+    font: 400 1rem var(--f-texto);
+    color: var(--tinta);
+    background: var(--crema);
+    border: 2px solid rgba(43, 33, 26, 0.55);
+    border-radius: var(--radio);
+    padding: 9px 10px;
+    width: 100%;
+  }
+  input:focus,
+  select:focus,
+  textarea:focus {
+    border-color: var(--azulejo);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(29, 74, 134, 0.2);
+  }
+  textarea {
+    resize: vertical;
+  }
+  .enviar {
+    justify-content: center;
+    margin-top: 4px;
+  }
+  .enviar[aria-disabled='true'] {
+    opacity: 0.45;
+    pointer-events: none;
+    box-shadow: none;
+  }
+  .ayuda {
+    font-size: 0.82rem;
+    color: var(--tinta-suave);
+    margin: 0;
+  }
+
+  @media (max-width: 980px) {
+    .rejilla {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .encargo {
+      position: static;
+      max-width: 520px;
+      width: 100%;
+      margin-inline: auto;
+    }
+  }
+  @media (max-width: 620px) {
+    .panel-cabeza {
+      grid-template-columns: 1fr 104px;
+      gap: 12px;
+    }
+    .panel :global(.foto-cat figcaption) {
+      display: none;
+    }
+    .panel :global(.foto-cat) {
+      padding-bottom: 8px;
+    }
+    .plato-linea {
+      flex-wrap: wrap;
+      gap: 0 8px;
+    }
+    .puntos {
+      display: none;
+    }
+    .plato-precio {
+      width: 100%;
+    }
+  }
+</style>

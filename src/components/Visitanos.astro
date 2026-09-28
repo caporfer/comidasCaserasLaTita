@@ -1,0 +1,172 @@
+---
+import Icono from './Icono.astro';
+import { negocio, direccionCompleta, horarioAgrupado, telLink, waLink } from '../data/negocio';
+const grupos = horarioAgrupado();
+---
+
+<section class="seccion donde" id="donde" aria-labelledby="donde-titulo">
+  <div class="envoltorio rejilla">
+    <div class="info">
+      <p class="antetitulo">pásate cuando quieras</p>
+      <h2 id="donde-titulo">Dónde está la Tita</h2>
+      <address>
+        <Icono nombre="mapa" />
+        <span>
+          <strong>{direccionCompleta}</strong><br />
+          En el barrio de siempre. Si vienes en coche, mejor aparcar un momentito y recoger.
+        </span>
+      </address>
+
+      <div class="horario">
+        <h3><Icono nombre="reloj" /> Horario</h3>
+        <p class="estado" data-estado>Consulta el horario</p>
+        <table>
+          <tbody>
+            {
+              grupos.map((g) => (
+                <tr data-dias={g.dias.join(',')}>
+                  <th scope="row">{g.etiqueta}</th>
+                  <td>{g.tramos.map(([a, c]) => `${a}–${c}`).join('  ·  ')}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <div class="botones">
+        <a class="boton boton--azul" href={negocio.mapsComoLlegar} target="_blank" rel="noopener">
+          <Icono nombre="mapa" /> Cómo llegar
+        </a>
+        <a class="boton boton--claro" href={telLink}><Icono nombre="telefono" /> {negocio.telefono}</a>
+        <a class="boton boton--wa" href={waLink('¡Hola Tita!')} target="_blank" rel="noopener">
+          <Icono nombre="whatsapp" /> WhatsApp
+        </a>
+      </div>
+    </div>
+
+    <div class="mapa">
+      <div class="mapa-marco">
+        <iframe
+          title={`Mapa: ${negocio.nombre}, ${direccionCompleta}`}
+          src={negocio.mapsEmbed}
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          allowfullscreen></iframe>
+      </div>
+      <p class="chincheta-nota mano" aria-hidden="true">¡aquí!</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .rejilla {
+    display: grid;
+    grid-template-columns: 1fr 1.1fr;
+    gap: clamp(32px, 6vw, 80px);
+    align-items: center;
+  }
+  address {
+    font-style: normal;
+    display: flex;
+    gap: 12px;
+    margin-bottom: 30px;
+    color: var(--tinta-suave);
+  }
+  address strong {
+    color: var(--tinta);
+    font-size: 1.15rem;
+  }
+  address > :global(svg) {
+    width: 26px;
+    flex: none;
+    color: var(--almagra);
+    margin-top: 2px;
+  }
+  .horario {
+    background: var(--crema);
+    border: 2px solid var(--tinta);
+    border-radius: var(--radio);
+    padding: 20px 22px;
+    margin-bottom: 28px;
+  }
+  .horario h3 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1.4rem;
+    margin-bottom: 6px;
+  }
+  .horario h3 :global(svg) {
+    width: 22px;
+  }
+  .horario .estado {
+    margin-bottom: 12px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  th,
+  td {
+    text-align: left;
+    padding: 9px 8px;
+    border-top: 1px dashed rgba(43, 33, 26, 0.3);
+    font-weight: 400;
+  }
+  th {
+    font-weight: 700;
+  }
+  td {
+    white-space: pre;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+  tr[data-hoy] {
+    background: var(--mostaza);
+  }
+  tr[data-hoy] th::after {
+    content: ' (hoy)';
+    font-family: var(--f-mano);
+    font-size: 1.15rem;
+  }
+  .botones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .mapa {
+    position: relative;
+  }
+  .mapa-marco {
+    border: 3px solid var(--tinta);
+    background: var(--crema);
+    padding: 10px;
+    box-shadow: 10px 10px 0 var(--almagra);
+    transform: rotate(-1deg);
+  }
+  iframe {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 3.4;
+    border: 0;
+    filter: sepia(0.25) saturate(0.9);
+  }
+  .chincheta-nota {
+    position: absolute;
+    top: -26px;
+    right: 24px;
+    font-size: 2.2rem;
+    color: var(--almagra);
+    transform: rotate(8deg);
+    margin: 0;
+  }
+  @media (max-width: 900px) {
+    .rejilla {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    td {
+      white-space: normal;
+    }
+  }
+</style>

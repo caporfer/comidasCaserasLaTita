@@ -1,0 +1,39 @@
+---
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Icono from '../components/Icono.astro';
+import { waLink } from '../data/negocio';
+---
+
+<Base titulo="Aquí no hay nada · La Tita" indexar={false}>
+  <Header />
+  <main id="contenido" class="envoltorio perdido">
+    <p class="antetitulo">error 404</p>
+    <h1>Esta olla está vacía.</h1>
+    <p>La página que buscas no existe o se la han comido ya. Pero en la cocina siempre queda algo.</p>
+    <div class="acciones">
+      <a class="boton" href="/">Volver al inicio</a>
+      <a class="boton boton--wa" href={waLink('¡Hola Tita! ¿Qué tienes hoy?')} target="_blank" rel="noopener">
+        <Icono nombre="whatsapp" /> Preguntar a la Tita
+      </a>
+    </div>
+  </main>
+  <Footer />
+</Base>
+
+<style>
+  .perdido {
+    padding-block: clamp(80px, 14vw, 160px);
+    max-width: 720px;
+  }
+  h1 {
+    font-size: clamp(2.8rem, 8vw, 5rem);
+  }
+  .acciones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 28px;
+  }
+</style>

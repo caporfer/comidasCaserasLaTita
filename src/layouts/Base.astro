@@ -1,0 +1,130 @@
+---
+import '../styles/global.css';
+import { negocio, direccionCompleta } from '../data/negocio';
+
+interface Props {
+  titulo?: string;
+  descripcion?: string;
+  indexar?: boolean;
+}
+
+const {
+  titulo = `${negocio.nombre} · Comida casera para llevar en Huelva`,
+  descripcion = `Guisos, tortillas, croquetas y empanados caseros para llevar en ${negocio.direccion.calle}, Huelva. ${negocio.anyos} años cocinando para el barrio. Encarga por WhatsApp al ${negocio.telefono}.`,
+  indexar = true,
+} = Astro.props;
+
+const canonica = new URL(Astro.url.pathname, Astro.site);
+const og = new URL('/og.png', Astro.site);
+
+const diasSchema = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+const horarioSchema = negocio.horario.dias.flatMap((tramos, d) =>
+  tramos.map(([opens, closes]) => ({
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: `https://schema.org/${diasSchema[d]}`,
+    opens,
+    closes,
+  })),
+);
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Restaurant',
+  '@id': new URL('/#negocio', Astro.site).href,
+  name: negocio.nombre,
+  alternateName: ['La Tita', 'Comidas Casera La Tita', 'Freiduría La Tita'],
+  description: descripcion,
+  url: new URL('/', Astro.site).href,
+  image: og.href,
+  telephone: negocio.telefonoIntl,
+  priceRange: '€',
+  servesCuisine: ['Comida casera', 'Andaluza', 'Española'],
+  acceptsReservations: false,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: `${negocio.direccion.calle}${negocio.direccion.numero ? ', ' + negocio.direccion.numero : ''}`,
+    postalCode: negocio.direccion.cp,
+    addressLocality: negocio.direccion.ciudad,
+    addressRegion: 'Andalucía',
+    addressCountry: 'ES',
+  },
+  hasMap: negocio.mapsFicha,
+  sameAs: [negocio.facebook],
+  openingHoursSpecification: horarioSchema,
+  aggregateRating: {
+    '@type': 'AggregateRating',
+    ratingValue: negocio.valoracion.nota,
+    reviewCount: negocio.valoracion.resenas,
+    bestRating: 5,
+  },
+  potentialAction: {
+    '@type': 'OrderAction',
+    target: `https://wa.me/${negocio.whatsapp}`,
+    deliveryMethod: 'http://purl.org/goodrelations/v1#DeliveryModePickUp',
+  },
+};
+---
+
+<!doctype html>
+<html lang="es-ES">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{titulo}</title>
+    <meta name="description" content={descripcion} />
+    <link rel="canonical" href={canonica} />
+    {!indexar && <meta name="robots" content="noindex" />}
+    <meta name="theme-color" content="#a13d25" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <meta property="og:type" content="restaurant" />
+    <meta property="og:locale" content="es_ES" />
+    <meta property="og:site_name" content={negocio.nombre} />
+    <meta property="og:title" content={titulo} />
+    <meta property="og:description" content={descripcion} />
+    <meta property="og:url" content={canonica} />
+    <meta property="og:image" content={og} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="geo.region" content="ES-H" />
+    <meta name="geo.placename" content={direccionCompleta} />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Figtree:ital,wght@0,400;0,600;0,800;1,400&family=Young+Serif&display=swap"
+    />
+    <link rel="preconnect" href="https://commons.wikimedia.org" />
+    <link rel="preconnect" href="https://upload.wikimedia.org" />
+
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </head>
+  <body>
+    <a class="saltar" href="#contenido">Saltar al contenido</a>
+    <slot />
+    <script>
+      import { pintarEstado } from '../scripts/horario';
+      pintarEstado();
+      setInterval(pintarEstado, 60_000);
+    </script>
+  </body>
+</html>
+
+<style>
+  .saltar {
+    position: absolute;
+    left: 12px;
+    top: -60px;
+    z-index: 100;
+    background: var(--tinta);
+    color: var(--crema);
+    padding: 10px 14px;
+    border-radius: var(--radio);
+  }
+  .saltar:focus {
+    top: 12px;
+  }
+</style>

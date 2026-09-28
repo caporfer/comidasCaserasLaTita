@@ -1,0 +1,106 @@
+---
+import Logo from './Logo.astro';
+import Icono from './Icono.astro';
+import { negocio, telLink, waLink } from '../data/negocio';
+---
+
+<div class="franja">
+  <div class="envoltorio franja-in">
+    <span class="estado" data-estado>Comida casera para llevar</span>
+    <span class="direccion">{negocio.direccion.calle} · Huelva</span>
+    <a href={telLink} class="tel">{negocio.telefono}</a>
+  </div>
+</div>
+
+<header class="cabecera">
+  <div class="envoltorio cabecera-in">
+    <a href="/" aria-label={`${negocio.nombre}, inicio`} class="marca"><Logo /></a>
+    <nav aria-label="Principal">
+      <ul>
+        <li><a href="#hoy">Hoy</a></li>
+        <li><a href="#carta">La carta</a></li>
+        <li><a href="#la-tita">La Tita</a></li>
+        <li><a href="#donde">Dónde estamos</a></li>
+      </ul>
+    </nav>
+    <a class="boton boton--wa encargar" href={waLink('¡Hola Tita! Quería hacer un encargo 😊')} target="_blank" rel="noopener">
+      <Icono nombre="whatsapp" /> Encargar
+    </a>
+  </div>
+</header>
+
+<style>
+  .franja {
+    background: var(--tinta);
+    color: var(--papel);
+    font-size: 0.875rem;
+  }
+  .franja-in {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 38px;
+  }
+  .franja .estado {
+    font-size: 0.875rem;
+  }
+  .franja a {
+    color: var(--papel);
+    text-decoration: none;
+    font-weight: 600;
+  }
+  .direccion {
+    opacity: 0.75;
+  }
+  .cabecera {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    background: color-mix(in srgb, var(--papel) 92%, transparent);
+    backdrop-filter: blur(6px);
+    border-bottom: 2px solid var(--tinta);
+  }
+  .cabecera-in {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    min-height: 72px;
+  }
+  .marca {
+    text-decoration: none;
+  }
+  nav ul {
+    display: flex;
+    gap: clamp(12px, 2.5vw, 32px);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  nav a {
+    color: var(--tinta);
+    font-weight: 600;
+    text-decoration: none;
+    padding: 6px 2px;
+    background: linear-gradient(var(--mostaza), var(--mostaza)) no-repeat 0 88% / 0 6px;
+    transition: background-size 0.25s ease;
+  }
+  nav a:hover {
+    background-size: 100% 6px;
+  }
+  @media (max-width: 860px) {
+    nav,
+    .direccion {
+      display: none;
+    }
+    .encargar {
+      padding: 0.7em 1em;
+    }
+  }
+  @media (max-width: 420px) {
+    .tel {
+      display: none;
+    }
+  }
+</style>

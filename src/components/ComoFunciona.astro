@@ -1,0 +1,155 @@
+---
+import { negocio, waLink } from '../data/negocio';
+import Icono from './Icono.astro';
+---
+
+<section class="seccion como" aria-labelledby="como-titulo">
+  <div class="envoltorio rejilla">
+    <div class="intro">
+      <p class="antetitulo">para los nuevos del barrio</p>
+      <h2 id="como-titulo">Encargar es más fácil que pelar una papa.</h2>
+      <p>
+        Aquí no hay app, ni registro, ni carrito que se cuelga. Le escribes a la Tita como le escribirías a tu
+        madre, le dices qué quieres y a qué hora pasas. Ella te lo tiene preparado.
+      </p>
+      <p class="nota-mano mano">
+        ¿Tienes táper? ¡Tráetelo! <span aria-hidden="true">↺</span>
+      </p>
+      <a class="boton boton--wa" href={waLink('¡Hola Tita! Es la primera vez que te encargo, ¿cómo lo hago?')} target="_blank" rel="noopener">
+        <Icono nombre="whatsapp" /> Escribir a la Tita
+      </a>
+    </div>
+
+    <div class="ticket" role="img" aria-label="Ticket con los tres pasos: escribe por WhatsApp, recoge a tu hora y a comer.">
+      <div class="ticket-in" aria-hidden="true">
+        <p class="t-centro t-grande">LA TITA</p>
+        <p class="t-centro">COMIDAS CASERAS PARA LLEVAR</p>
+        <p class="t-centro">{negocio.direccion.calle.toUpperCase()} · HUELVA</p>
+        <p class="t-centro">TLF/WHATSAPP {negocio.telefono}</p>
+        <hr />
+        <div class="paso">
+          <p class="linea"><span>01 ESCRIBE</span><span>WHATSAPP</span></p>
+          <p class="cita mano">"Tita, guárdame dos de lentejas pa las dos y media"</p>
+        </div>
+        <div class="paso">
+          <p class="linea"><span>02 RECOGE</span><span>A TU HORA</span></p>
+          <p class="sub">MEDIODÍA 13–16 H · NOCHE 20–23 H</p>
+        </div>
+        <div class="paso">
+          <p class="linea"><span>03 A COMER</span><span>EN CASA</span></p>
+          <p class="sub">SIN FREGAR NI UNA OLLA</p>
+        </div>
+        <hr />
+        <p class="linea total"><span>TIEMPO EN TU COCINA</span><span>0 MIN</span></p>
+        <p class="linea"><span>CLIENTES DESDE HACE</span><span>{negocio.anyos} AÑOS</span></p>
+        <hr />
+        <p class="t-centro">*** GRACIAS POR SU VISITA ***</p>
+        <div class="codigo"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .rejilla {
+    display: grid;
+    grid-template-columns: 1fr 0.8fr;
+    gap: clamp(40px, 7vw, 100px);
+    align-items: center;
+  }
+  .intro p:not(.antetitulo):not(.nota-mano) {
+    max-width: 44ch;
+    color: var(--tinta-suave);
+  }
+  .nota-mano {
+    font-size: 1.9rem;
+    color: var(--azulejo);
+    transform: rotate(-3deg);
+    margin: 18px 0 26px;
+  }
+  .ticket {
+    --diente: 10px;
+    justify-self: center;
+    width: min(100%, 380px);
+    filter: drop-shadow(0 14px 18px rgba(43, 33, 26, 0.28));
+    transform: rotate(2.5deg);
+  }
+  .ticket-in {
+    background: #fdfbf4;
+    padding: 30px 26px 34px;
+    font-family: var(--f-ticket);
+    font-size: 0.82rem;
+    letter-spacing: 0.02em;
+    color: #3a332c;
+    /* bordes troquelados arriba y abajo */
+    -webkit-mask:
+      radial-gradient(circle at 50% 0, #0000 6px, #000 6.5px) top / 16px 51% repeat-x,
+      radial-gradient(circle at 50% 100%, #0000 6px, #000 6.5px) bottom / 16px 51% repeat-x;
+    mask:
+      radial-gradient(circle at 50% 0, #0000 6px, #000 6.5px) top / 16px 51% repeat-x,
+      radial-gradient(circle at 50% 100%, #0000 6px, #000 6.5px) bottom / 16px 51% repeat-x;
+  }
+  .ticket p {
+    margin: 0;
+    line-height: 1.55;
+  }
+  .t-centro {
+    text-align: center;
+  }
+  .t-grande {
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    margin-bottom: 4px !important;
+  }
+  hr {
+    border: 0;
+    border-top: 2px dashed #9b9185;
+    margin: 14px 0;
+  }
+  .linea {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    font-weight: 700;
+  }
+  .linea span:first-child {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  .linea span:first-child::after {
+    content: ' ..................................................';
+    font-weight: 400;
+    color: #9b9185;
+  }
+  .paso + .paso {
+    margin-top: 12px;
+  }
+  .cita {
+    font-size: 1.35rem;
+    color: var(--azulejo);
+    font-family: var(--f-mano);
+    letter-spacing: 0;
+    line-height: 1.1 !important;
+    margin-top: 4px !important;
+  }
+  .sub {
+    color: #6c6258;
+  }
+  .total {
+    font-size: 0.95rem;
+  }
+  .codigo {
+    height: 44px;
+    margin: 16px auto 0;
+    width: 80%;
+    background: repeating-linear-gradient(90deg, #3a332c 0 2px, transparent 2px 4px, #3a332c 4px 5px, transparent 5px 9px, #3a332c 9px 12px, transparent 12px 13px);
+  }
+  @media (max-width: 860px) {
+    .rejilla {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

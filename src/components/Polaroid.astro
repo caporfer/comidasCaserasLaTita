@@ -1,0 +1,132 @@
+---
+// Foto con marco de polaroid y cinta adhesiva.
+// Si existe /public/img/<id>.(jpg|webp|png) se usa esa (foto propia);
+// si no, se tira de Wikimedia Commons. Si la foto no carga, queda un
+// dibujo con el nombre del plato escrito a mano.
+import fs from 'node:fs';
+import path from 'node:path';
+import { commonsUrl, type Foto } from '../data/fotos';
+
+interface Props {
+  foto: Foto;
+  pie?: string;
+  giro?: number;
+  ancho?: number;
+  cinta?: 'arriba' | 'esquinas' | 'no';
+  prioridad?: boolean;
+  class?: string;
+}
+
+const { foto, pie, giro = 0, ancho = 700, cinta = 'arriba', prioridad = false, class: clase } = Astro.props;
+
+const local = ['jpg', 'jpeg', 'webp', 'png']
+  .map((ext) => `/img/${foto.id}.${ext}`)
+  .find((ruta) => fs.existsSync(path.join(process.cwd(), 'public', ruta)));
+
+const src = local ?? commonsUrl(foto, ancho);
+const srcset = local ? undefined : `${commonsUrl(foto, Math.round(ancho / 2))} ${Math.round(ancho / 2)}w, ${src} ${ancho}w`;
+---
+
+<figure class:list={['polaroid', clase, `cinta-${cinta}`]} style={`--giro:${giro}deg`}>
+  <div class="foto">
+    <span class="respaldo mano" aria-hidden="true">
+      <svg viewBox="0 0 120 70" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round">
+        <ellipse cx="60" cy="42" rx="52" ry="20" />
+        <ellipse cx="60" cy="40" rx="34" ry="11" />
+        <path d="M44 22c3-6-3-9 0-15M60 20c3-6-3-9 0-15M76 22c3-6-3-9 0-15" />
+      </svg>
+      {!pie && foto.alt}
+    </span>
+    <img
+      src={src}
+      srcset={srcset}
+      sizes={`(max-width: 700px) 80vw, ${Math.round(ancho / 2)}px`}
+      alt={foto.alt}
+      loading={prioridad ? 'eager' : 'lazy'}
+      fetchpriority={prioridad ? 'high' : undefined}
+      decoding="async"
+      referrerpolicy="no-referrer"
+      onerror="this.remove()"
+    />
+  </div>
+  {pie && <figcaption class="mano">{pie}</figcaption>}
+</figure>
+
+<style>
+  .polaroid {
+    margin: 0;
+    background: #fffdf7;
+    padding: 10px 10px 0;
+    box-shadow: var(--sombra-papel);
+    transform: rotate(var(--giro));
+    position: relative;
+    transition: transform 0.3s ease;
+  }
+  .polaroid:not(:has(figcaption)) {
+    padding-bottom: 10px;
+  }
+  .foto {
+    position: relative;
+    aspect-ratio: 4 / 3.3;
+    background: var(--papel-2);
+    overflow: hidden;
+  }
+  .foto img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: saturate(1.05) contrast(1.02);
+  }
+  .respaldo {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-content: center;
+    justify-items: center;
+    gap: 6px;
+    padding: 12px;
+    text-align: center;
+    font-size: 1.5rem;
+    color: var(--tinta-suave);
+  }
+  .respaldo svg {
+    width: 90px;
+  }
+  figcaption {
+    font-size: 1.45rem;
+    text-align: center;
+    padding: 6px 4px 10px;
+    color: var(--tinta);
+  }
+  .cinta-arriba::before,
+  .cinta-esquinas::before,
+  .cinta-esquinas::after {
+    content: '';
+    position: absolute;
+    width: 96px;
+    height: 28px;
+    background: rgba(233, 214, 160, 0.72);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+    z-index: 2;
+    /* bordes cortados a mano */
+    clip-path: polygon(2% 8%, 0 30%, 3% 55%, 0 80%, 2% 100%, 98% 94%, 100% 70%, 97% 45%, 100% 20%, 98% 0);
+  }
+  .cinta-arriba::before {
+    top: -12px;
+    left: 50%;
+    translate: -50% 0;
+    rotate: -3deg;
+  }
+  .cinta-esquinas::before {
+    top: -8px;
+    left: -26px;
+    rotate: -38deg;
+  }
+  .cinta-esquinas::after {
+    bottom: -8px;
+    right: -26px;
+    rotate: -38deg;
+  }
+</style>
